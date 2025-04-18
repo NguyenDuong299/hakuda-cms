@@ -11,7 +11,7 @@ export interface Users {
 }
 
 export interface Posts{
-    id: number;
+    id: string;
     title: string;
     content: string;
     thumbnail: string;

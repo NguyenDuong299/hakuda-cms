@@ -5,7 +5,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Button from "../../components/ui/button/Button";
 import Input from "../../components/form/input/InputField";
-import { PostForm } from "./PostForm";
+import { AddPost } from "./AddPost";
+import { EditPost } from "./EditPost";
 export default function PostsManager() {
   const API_URL = import.meta.env.VITE_API_URL;
   const [post, setPost] = useState<Posts[]>([]);
@@ -22,17 +23,19 @@ export default function PostsManager() {
     fetchPosts();
   }, []);
 
-  const [showModal, setShowModal] = useState(false);
-  const tableCell = ["Hình ảnh", "Tiêu đề", "Nội dung", "Tác giả", "Nổi bật", "Thao tác"];
+  const tableCell = ["Hình ảnh", "Tiêu đề", "Tác giả", "Nổi bật", "Thao tác"];
+  const [modal, setModal] = useState<"add" | "edit" | null>(null);
+
   return (
     <>
-      <PostForm showModal={showModal} setShowModal={setShowModal} />
+      {modal === "add" && <AddPost setClose={() => setModal(null)} />}
+      {modal === "edit" && <EditPost setClose={() => setModal(null)} />}
       <PageBreadcrumb pageTitle="Quản lý bài viết" />
       <div className="space-y-6">
         <div className={`rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]`}>
           <div className="px-6 py-5 flex justify-between">
             <Input type="text" id="input" placeholder="Search" />
-            <Button size="sm" onClick={() => setShowModal(true)}>
+            <Button size="sm" onClick={() => setModal("add")}>
               Thêm
             </Button>
           </div>
@@ -54,9 +57,14 @@ export default function PostsManager() {
                   <TableRow key={index}>
                     <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">{item.thumbnail}</TableCell>
                     <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">{item.title}</TableCell>
-                    <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">{item.content}</TableCell>
                     <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">{item.author}</TableCell>
                     <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">{item.hot}</TableCell>
+                    <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
+                      <Button size="sm" onClick={() => setModal("edit")}>
+                        Sửa
+                      </Button>
+                      <Button size="sm">Xóa</Button>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

@@ -1,33 +1,27 @@
 import Input from "../../components/form/input/InputField";
 import Switch from "../../components/form/switch/Switch";
 import Button from "../../components/ui/button/Button";
-
-interface PostFormProps {
-  showModal: boolean;
-  setShowModal: (val: boolean) => void;
+import TextEditor from "../../components/ckeditor/TextEditor";
+interface Props {
+  setClose: () => void;
 }
-
-export const PostForm = ({ showModal, setShowModal }: PostFormProps) => {
-  if (!showModal) return null;
-
+export const PostForm = ({ setClose }: Props) => {
   return (
-    <div className="fixed inset-0 z-60 flex items-center justify-center bg-black/50">
-      <div className="bg-white dark:bg-gray-900 p-6 rounded-xl w-full max-w-md shadow-lg relative border border-gray-200 dark:border-white/[0.1]">
-        <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">Thêm bài viết mới</h2>
-        <form>
-          <Input type="text" placeholder="Tiêu đề" className="mb-4" />
-          <Input type="text" placeholder="Nội dung" className="mb-4" />
-          <Input type="text" placeholder="Tác giả" className="mb-4" />
-          <Input type="text" placeholder="Hình ảnh (URL)" className="mb-4" />
-          <Switch label="Nổi bật bài viết" />
-          <div className="flex justify-end gap-2">
-            <Button type="button" variant="outline" onClick={() => setShowModal(false)}>
-              Hủy
-            </Button>
-            <Button type="submit">Lưu</Button>
-          </div>
-        </form>
+    <>
+      <Input type="text" placeholder="Tiêu đề" className="mb-4" name="title" />
+      <Input type="text" placeholder="Tác giả" className="mb-4" name="author" />
+      <Input type="text" placeholder="Hình ảnh (URL)" className="mb-4" name="image" />
+      <Switch label="Nổi bật bài viết" name="hot" />
+      <div className="mt-4">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nội dung</label>
+        <TextEditor />
       </div>
-    </div>
+      <div className="flex justify-end gap-2 mt-4">
+        <Button type="button" variant="outline" onClick={setClose}>
+          Hủy
+        </Button>
+        <Button type="submit">Lưu</Button>
+      </div>
+    </>
   );
 };
