@@ -3,7 +3,6 @@ import SignIn from "./pages/AuthPages/SignIn";
 import NotFound from "./pages/OtherPage/NotFound";
 import UserProfiles from "./pages/UserProfiles";
 import BarChart from "./pages/Charts/BarChart";
-import Posts from "./pages/Posts/Posts";
 import FormElements from "./pages/Forms/FormElements";
 import Blank from "./pages/Blank";
 import AppLayout from "./layout/AppLayout";
@@ -11,6 +10,7 @@ import { ScrollToTop } from "./components/common/ScrollToTop";
 import Home from "./pages/Dashboard/Home";
 import { AuthGuard } from "./components/common/AuthGuard";
 import PostsManager from "./pages/Posts/Posts";
+import AccountManagement from "./pages/User/User";
 
 export default function App() {
   return (
@@ -37,6 +37,7 @@ export default function App() {
             <Route path="/form-elements" element={<FormElements />} />
 
             {/* Tables */}
+            <Route path="/accounts" element={<AccountManagement />} />
             <Route path="/posts" element={<PostsManager />} />
 
             {/* Charts */}

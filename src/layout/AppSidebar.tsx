@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router";
 
 // Assume these icons are imported from an icon library
-import { BoxCubeIcon, CalenderIcon, ChevronDownIcon, GridIcon, HorizontaLDots, ListIcon, PageIcon, PieChartIcon, TableIcon, UserCircleIcon } from "../icons";
+import { ChevronDownIcon, GridIcon, HorizontaLDots, ListIcon, PageIcon, TableIcon } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
 
 type NavItem = {
@@ -15,7 +15,7 @@ type NavItem = {
 const navItems: NavItem[] = [
   {
     icon: <GridIcon />,
-    name: "Dashboard",
+    name: "Bảng điều khiển",
     subItems: [{ name: "Ecommerce", path: "/", pro: false }],
   },
   {
@@ -24,11 +24,14 @@ const navItems: NavItem[] = [
     subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
   },
   {
+    name: "Quản lý người dùng",
+    icon: <TableIcon />,
+    subItems: [{ name: "Tài khoản", path: "/accounts", pro: false }],
+  },
+  {
     name: "Quản lý bài viết",
     icon: <TableIcon />,
-    subItems: [
-      { name: "Bài viết", path: "/posts", pro: false },
-    ],
+    subItems: [{ name: "Bài viết", path: "/posts", pro: false }],
   },
   {
     name: "Pages",

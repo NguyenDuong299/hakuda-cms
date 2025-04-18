@@ -1,12 +1,15 @@
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
-import ComponentCard from "../../components/common/ComponentCard";
 import { Table, TableBody, TableCell, TableHeader, TableRow } from "../../components/ui/table";
 import { Posts } from "../../types/index";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import Button from "../../components/ui/button/Button";
+import Input from "../../components/form/input/InputField";
+import { PostForm } from "./PostForm";
 export default function PostsManager() {
   const API_URL = import.meta.env.VITE_API_URL;
   const [post, setPost] = useState<Posts[]>([]);
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -18,38 +21,48 @@ export default function PostsManager() {
     };
     fetchPosts();
   }, []);
+
+  const [showModal, setShowModal] = useState(false);
   const tableCell = ["Hình ảnh", "Tiêu đề", "Nội dung", "Tác giả", "Nổi bật", "Thao tác"];
   return (
     <>
+      <PostForm showModal={showModal} setShowModal={setShowModal} />
       <PageBreadcrumb pageTitle="Quản lý bài viết" />
       <div className="space-y-6">
-        <ComponentCard title="Danh sách bài viết">
-          <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
-            <div className="max-w-full overflow-x-auto">
-              <Table>
-                <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
-                  <TableRow>
-                    {tableCell.map((item, index) => (
-                      <TableCell key={index} isHeader className="px-4 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
-                        {item}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                </TableHeader>
-                <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
-                  {post.map((item, index) => (
-                    <TableRow>
-                      <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">1</TableCell>
-                      <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">1</TableCell>
-                      <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">1</TableCell>
-                      <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">1</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
+        <div className={`rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]`}>
+          <div className="px-6 py-5 flex justify-between">
+            <Input type="text" id="input" placeholder="Search" />
+            <Button size="sm" onClick={() => setShowModal(true)}>
+              Thêm
+            </Button>
           </div>
-        </ComponentCard>
+        </div>
+        <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
+          <div className="max-w-full overflow-x-auto">
+            <Table>
+              <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
+                <TableRow>
+                  {tableCell.map((item, index) => (
+                    <TableCell key={index} isHeader className="px-4 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
+                      {item}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHeader>
+              <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
+                {post.map((item, index) => (
+                  <TableRow key={index}>
+                    <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">{item.thumbnail}</TableCell>
+                    <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">{item.title}</TableCell>
+                    <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">{item.content}</TableCell>
+                    <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">{item.author}</TableCell>
+                    <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">{item.hot}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </div>
       </div>
     </>
   );
