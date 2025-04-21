@@ -29,7 +29,7 @@ export default function PostsManager() {
       const res = await axios.get(`${API_URL}/api/posts`, {
         params: {
           page,
-          search: searchQuery,
+          search: debouncedSearch,
         },
       });
       setTotalPosts(res.data.totalPosts);
@@ -48,9 +48,9 @@ export default function PostsManager() {
       setDebouncedSearch(searchQuery);
       setPage(1);
     }, 500);
-
     return () => clearTimeout(timer);
   }, [searchQuery]);
+
   const tableCell = ["STT", "Hình ảnh", "Tiêu đề", "Tác giả", "Ngày tạo", "Chỉnh sửa cuối", "Thao tác"];
 
   const handleDelete = async (id: string) => {

@@ -1,6 +1,6 @@
 // components/form/form-elements/DropZone.tsx
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 interface ImageUploaderProps {
   initialPreviewUrl?: string;

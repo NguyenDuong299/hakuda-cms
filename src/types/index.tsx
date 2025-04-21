@@ -4,10 +4,10 @@ export interface Users {
   lastName: string;
   email: string;
   phoneNumber: string;
-  address_province: string;
-  address_district: string;
-  address_ward: string;
-  addressDetail: string;
+  addressProvinceCode: string;
+  addressDistrictCode: string;
+  addressWardCode: string;
+  addressDesc: string;
   created_at: string;
   updated_at: string;
 }
@@ -22,6 +22,7 @@ export interface Posts {
   created_at: string;
   updated_at: string;
 }
+
 export interface Banners {
   id: string;
   name: string;
@@ -29,4 +30,16 @@ export interface Banners {
   image: string;
   created_at: string;
   updated_at: string;
+}
+
+export interface Vouchers {
+  id: string;
+  code: string;
+  discountType: string;
+  discountValue: number;
+  quantity: number;
+  startDate: Date;
+  endDate: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }

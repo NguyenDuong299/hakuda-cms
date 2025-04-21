@@ -12,6 +12,7 @@ import { AuthGuard } from "./components/common/AuthGuard";
 import PostsManager from "./pages/Posts/Posts";
 import AccountManagement from "./pages/User/User";
 import Banner from "./pages/Page/Banner/Banner";
+import VoucherManagement from "./pages/Voucher/Voucher";
 
 export default function App() {
   return (
@@ -36,6 +37,15 @@ export default function App() {
               element={
                 <AuthGuard>
                   <AccountManagement />
+                </AuthGuard>
+              }
+            />
+            <Route
+              index
+              path="/voucher"
+              element={
+                <AuthGuard>
+                  <VoucherManagement />
                 </AuthGuard>
               }
             />
