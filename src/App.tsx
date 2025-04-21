@@ -11,6 +11,7 @@ import Home from "./pages/Dashboard/Home";
 import { AuthGuard } from "./components/common/AuthGuard";
 import PostsManager from "./pages/Posts/Posts";
 import AccountManagement from "./pages/User/User";
+import Banner from "./pages/Page/Banner/Banner";
 
 export default function App() {
   return (
@@ -29,6 +30,15 @@ export default function App() {
                 </AuthGuard>
               }
             />
+            <Route
+              index
+              path="/users"
+              element={
+                <AuthGuard>
+                  <AccountManagement />
+                </AuthGuard>
+              }
+            />
             {/* Others Page */}
             <Route path="/profile" element={<UserProfiles />} />
             <Route path="/blank" element={<Blank />} />
@@ -37,8 +47,8 @@ export default function App() {
             <Route path="/form-elements" element={<FormElements />} />
 
             {/* Tables */}
-            <Route path="/accounts" element={<AccountManagement />} />
             <Route path="/posts" element={<PostsManager />} />
+            <Route path="/banner" element={<Banner />} />
 
             {/* Charts */}
             <Route path="/bar-chart" element={<BarChart />} />

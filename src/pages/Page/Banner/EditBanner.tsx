@@ -1,29 +1,23 @@
 import axios from "axios";
-import Input from "../../components/form/input/InputField";
-import Switch from "../../components/form/switch/Switch";
-import Button from "../../components/ui/button/Button";
-import TextEditor from "../../components/ckeditor/TextEditor";
 import { useEffect, useRef, useState } from "react";
-import Label from "../../components/form/Label";
-import { Posts } from "../../types";
 import { toast } from "react-toastify";
-
+import Label from "../../../components/form/Label";
+import Button from "../../../components/ui/button/Button";
+import Input from "../../../components/form/input/InputField";
+import { Banners } from "../../../types";
 interface Props {
-  post: Posts;
+  banner: Banners;
   setClose: () => void;
   refresh: () => void;
 }
-
-export const EditPost = ({ post, setClose, refresh }: Props) => {
+export const EditBanner = ({ banner, setClose, refresh }: Props) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const API_URL = import.meta.env.VITE_API_URL;
   const [form, setForm] = useState({
     id: "",
-    title: "",
-    author: "",
-    thumbnail: "",
-    content: "",
-    hot: false,
+    name: "",
+    image: "",
+    description: "",
   });
 
   const triggerFileSelect = () => {
@@ -31,29 +25,19 @@ export const EditPost = ({ post, setClose, refresh }: Props) => {
   };
 
   useEffect(() => {
-    if (post) {
+    if (banner) {
       setForm({
-        id: post.id,
-        title: post.title,
-        author: post.author,
-        thumbnail: post.thumbnail,
-        content: post.content,
-        hot: post.hot,
+        id: banner.id,
+        name: banner.name,
+        image: banner.image,
+        description: banner.description,
       });
     }
-  }, [post]);
+  }, [banner]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleHotChange = (checked: boolean) => {
-    setForm((prev) => ({ ...prev, hot: checked }));
-  };
-
-  const handleEditorChange = (data: string) => {
-    setForm((prev) => ({ ...prev, content: data }));
   };
 
   const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,7 +56,7 @@ export const EditPost = ({ post, setClose, refresh }: Props) => {
         const imagePath = response.data?.path;
         if (imagePath) {
           setForm((prev) => {
-            const updatedForm = { ...prev, thumbnail: imagePath };
+            const updatedForm = { ...prev, image: imagePath };
             return updatedForm;
           });
         }
@@ -87,7 +71,7 @@ export const EditPost = ({ post, setClose, refresh }: Props) => {
   const handlePut = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await axios.put(`${API_URL}/api/posts/${form.id}`, form);
+      const res = await axios.put(`${API_URL}/api/banners/${form.id}`, form);
       refresh();
       toast.success(res.data.message);
       setClose();
@@ -102,27 +86,20 @@ export const EditPost = ({ post, setClose, refresh }: Props) => {
         <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">Chỉnh sửa bài viết</h2>
         <form onSubmit={handlePut}>
           <div className="mb-4">
-            <Label htmlFor="title">Tiêu đề</Label>
-            <Input id="title" type="text" placeholder="Tiêu đề" name="title" value={form.title} onChange={onChange} required />
+            <Label htmlFor="name">Tên Banner</Label>
+            <Input id="name" type="text" placeholder="Tên Banner" name="name" value={form.name} onChange={onChange} required />
           </div>
           <div className="mb-4">
-            <Label htmlFor="author">Tác giả</Label>
-            <Input id="author" type="text" placeholder="Tác giả" name="author" value={form.author} onChange={onChange} />
-          </div>
-          <div className="mb-4">
-            <Switch label="Nổi bật bài viết" checked={form.hot} onChange={handleHotChange} />
-          </div>
-          <div className="mb-4">
-            <Label htmlFor="thumbnail">Hình ảnh (Thumbnail)</Label>
+            <Label htmlFor="thumbnail">Hình ảnh</Label>
             <Button type="button" onClick={triggerFileSelect}>
               Chọn ảnh
             </Button>
             <input type="file" accept="image/*" ref={fileInputRef} onChange={handleImageSelect} className="hidden" />
-            {form.thumbnail && <img src={`${API_URL}/${form.thumbnail}`} alt="Preview" className="max-w-full max-h-64 rounded-lg border mt-2" />}
+            {form.image && <img src={`${API_URL}/${form.image}`} alt="Preview" className="max-w-full max-h-64 rounded-lg border mt-2" />}
           </div>
-          <div className="mt-4">
-            <Label htmlFor="content">Nội dung</Label>
-            <TextEditor value={form.content} onChange={handleEditorChange} />
+          <div className="mb-4">
+            <Label htmlFor="description">Mô tả</Label>
+            <Input id="description" type="text" placeholder="Mô tả" name="description" value={form.description} onChange={onChange} />
           </div>
           <div className="flex justify-end gap-2 mt-4">
             <Button type="button" variant="outline" onClick={setClose}>

@@ -32,7 +32,11 @@ export default function SignInForm() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const res = await axios.post(`${API_URL}/auth/login`, formData);
+      const res = await axios.post(`${API_URL}/api/auth/login`, formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       const { token, user } = res.data;
 
       if (user.role !== "admin") {

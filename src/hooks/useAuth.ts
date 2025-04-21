@@ -11,13 +11,14 @@ export const useAuthCheck = () => {
       setLoading(true);
       const token = localStorage.getItem("token");
       try {
-        const res = await axios.get(`${API_URL}/auth/my-profile`, {
+        const res = await axios.get(`${API_URL}/api/auth/my-profile`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
         setUserCheck(res.data);
       } catch (err) {
+        console.log(err);
         setUserCheck(null);
       } finally {
         setLoading(false);

@@ -3,9 +3,8 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 interface Props {
   onChange: (value: string) => void;
   value: string;
-  name: string;
 }
-export default function TextEditor({ onChange, value, name }: Props) {
+export default function TextEditor({ onChange, value }: Props) {
   const editorConfiguration = {
     toolbar: {
       items: [
@@ -54,11 +53,10 @@ export default function TextEditor({ onChange, value, name }: Props) {
       editor={Editor}
       config={editorConfiguration}
       data={value}
-      onChange={(event, editor) => {
+      onChange={(_, editor) => {
         const data = editor.getData();
         onChange(data);
       }}
-      name={name}
     />
   );
 }

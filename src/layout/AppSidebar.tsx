@@ -26,7 +26,7 @@ const navItems: NavItem[] = [
   {
     name: "Quản lý người dùng",
     icon: <TableIcon />,
-    subItems: [{ name: "Tài khoản", path: "/accounts", pro: false }],
+    subItems: [{ name: "Tài khoản", path: "/users", pro: false }],
   },
   {
     name: "Quản lý bài viết",
@@ -34,12 +34,9 @@ const navItems: NavItem[] = [
     subItems: [{ name: "Bài viết", path: "/posts", pro: false }],
   },
   {
-    name: "Pages",
+    name: "Quản lý trang",
     icon: <PageIcon />,
-    subItems: [
-      { name: "Blank Page", path: "/blank", pro: false },
-      { name: "404 Error", path: "/error-404", pro: false },
-    ],
+    subItems: [{ name: "Quản lý Banner", path: "/banner", pro: false }],
   },
 ];
 

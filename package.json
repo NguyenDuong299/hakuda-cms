@@ -24,6 +24,8 @@
     "axios": "^1.8.4",
     "ckeditor5-custom-project": "file:ckeditor5",
     "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
+    "dayjs": "^1.11.13",
     "dotenv": "^16.5.0",
     "flatpickr": "^4.6.13",
     "react": "^19.0.0",
@@ -36,6 +38,7 @@
     "react-router": "^7.1.5",
     "react-router-dom": "^7.5.0",
     "react-toastify": "^11.0.5",
+    "sub-vn": "^0.0.2",
     "swiper": "^11.2.3",
     "tailwind-merge": "^3.0.1",
     "zustand": "^5.0.3"
