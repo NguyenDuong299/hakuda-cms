@@ -153,7 +153,7 @@ export default function AccountManagement() {
           onCancel={() => setShowConfirm(false)}
         />
       )}
-      {modal === "edit" && <EditUser user={selected} setClose={() => setModal(null)} refresh={fetchUsers} />}
+      {modal === "edit" && selected && <EditUser user={selected} setClose={() => setModal(null)} refresh={fetchUsers} />}
     </>
   );
 }

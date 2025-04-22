@@ -6,7 +6,6 @@ import Label from "../../components/form/Label";
 import { toast } from "react-toastify";
 import { getProvinces, getDistrictsByProvinceCode, getWardsByDistrictCode } from "sub-vn";
 import { Users } from "../../types";
-import { set } from "date-fns";
 
 interface Props {
   user: Users;
@@ -89,62 +88,6 @@ export const EditUser = ({ user, setClose, refresh }: Props) => {
           <div className="mb-4">
             <Label htmlFor="phoneNumber">Số điện thoại</Label>
             <Input id="phoneNumber" type="tel" placeholder="Số điện thoại" name="phoneNumber" value={form.phoneNumber} onChange={onChange} />
-          </div>
-          <div className="mb-4">
-            <Label>Chọn tỉnh</Label>
-            <select
-              value={selectedProvince}
-              onChange={(e) => {
-                setSelectedProvince(e.target.value);
-                setSelectedDistrict("");
-                setSelectedWard("");
-              }}
-              className="w-full p-2 border rounded"
-            >
-              <option value="">Chọn tỉnh</option>
-              {provinces.map((item) => (
-                <option key={item.code} value={item.code}>
-                  {item.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="mb-4">
-            <Label>Chọn huyện</Label>
-            <select
-              value={selectedDistrict}
-              onChange={(e) => {
-                setSelectedDistrict(e.target.value);
-                setSelectedWard("");
-              }}
-              className="w-full p-2 border rounded"
-            >
-              <option value="">Chọn huyện</option>
-              {districts.map((item) => (
-                <option key={item.code} value={item.code}>
-                  {item.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="mb-4">
-            <Label>Chọn xã</Label>
-            <select
-              value={selectedWard}
-              onChange={(e) => {
-                setSelectedWard(e.target.value);
-              }}
-              className="w-full p-2 border rounded"
-            >
-              <option value="">Chọn xã</option>
-              {wards.map((item) => (
-                <option key={item.code} value={item.code}>
-                  {item.name}
-                </option>
-              ))}
-            </select>
           </div>
           <div className="mb-4">
             <Label htmlFor="addressDetail">Địa chỉ</Label>

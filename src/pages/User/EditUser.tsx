@@ -6,8 +6,6 @@ import Label from "../../components/form/Label";
 import { toast } from "react-toastify";
 import { getProvinces, getDistrictsByProvinceCode, getWardsByDistrictCode } from "sub-vn";
 import { Users } from "../../types";
-import { set } from "date-fns";
-
 interface Props {
   user: Users;
   setClose: () => void;

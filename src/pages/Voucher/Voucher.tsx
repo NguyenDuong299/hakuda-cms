@@ -10,6 +10,7 @@ import Blank from "../Blank";
 import { toast } from "react-toastify";
 import { Confirm } from "../../components/ui/confirm/Confirm";
 import { Vouchers } from "../../types";
+import { AddVoucher } from "./AddVoucher";
 export default function VoucherManagement() {
   const API_URL = import.meta.env.VITE_API_URL;
   const [voucher, setVoucher] = useState<Vouchers[]>([]);
@@ -81,10 +82,12 @@ export default function VoucherManagement() {
                         </TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{item.quantity}</TableCell>
                         <TableCell className="px-4 py-3 text-center text-theme-sm">
-                          <span className={false ? "text-red-500 font-semibold" : "text-green-500 font-semibold"}>{new Date() > new Date(item.endDate) ? "Quá hạn" : "Còn hạn"}</span>
+                          <span className={new Date() > new Date(item.endDate) ? "text-red-500 font-semibold" : "text-green-500 font-semibold"}>
+                            {new Date() > new Date(item.endDate) ? "Quá hạn" : "Còn hạn"}
+                          </span>
                         </TableCell>
-                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{format(new Date(item.startDate), "HH:mm dd/MM/yyyy")}</TableCell>
-                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{format(new Date(item.endDate), "HH:mm dd/MM/yyyy")}</TableCell>
+                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{format(new Date(item.startDate), "dd/MM/yyyy")}</TableCell>
+                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{format(new Date(item.endDate), "dd/MM/yyyy")}</TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{format(new Date(item.createdAt), "HH:mm dd/MM/yyyy")}</TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{format(new Date(item.updatedAt), "HH:mm dd/MM/yyyy")}</TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">
@@ -135,6 +138,7 @@ export default function VoucherManagement() {
           onCancel={() => setShowConfirm(false)}
         />
       )}
+      {modal === "add" && <AddVoucher setClose={() => setModal(null)} refresh={fetchVoucher} />}
       {/* {modal === "edit" && <EditUser user={selected} setClose={() => setModal(null)} refresh={fetchVoucher} />} */}
     </>
   );
