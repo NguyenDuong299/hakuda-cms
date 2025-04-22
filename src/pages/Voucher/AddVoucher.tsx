@@ -16,8 +16,8 @@ export const AddVoucher = ({ setClose, refresh }: Props) => {
   const [form, setForm] = useState({
     code: "",
     discountType: "",
-    discountValue: "",
-    quantity: "",
+    discountValue: 0,
+    quantity: 0,
     startDate: "",
     endDate: "",
   });
@@ -27,17 +27,24 @@ export const AddVoucher = ({ setClose, refresh }: Props) => {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const onChangeStartDate: Hook = (dates, dateStr) => {
+  const toYMD = (date: Date) => {
+    const year = date.getFullYear();
+    const month = `${date.getMonth() + 1}`.padStart(2, "0");
+    const day = `${date.getDate()}`.padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  const onChangeStartDate: Hook = (dates) => {
     const selectedDate = dates[0];
     if (selectedDate) {
-      setForm((prev) => ({ ...prev, startDate: dateStr }));
+      setForm((prev) => ({ ...prev, startDate: toYMD(selectedDate) }));
     }
   };
 
-  const onChangeEndDate: Hook = (dates, dateStr) => {
+  const onChangeEndDate: Hook = (dates) => {
     const selectedDate = dates[0];
     if (selectedDate) {
-      setForm((prev) => ({ ...prev, endDate: dateStr }));
+      setForm((prev) => ({ ...prev, endDate: toYMD(selectedDate) }));
     }
   };
 
@@ -62,7 +69,7 @@ export const AddVoucher = ({ setClose, refresh }: Props) => {
   return (
     <div className="fixed inset-0 z-60 flex items-center justify-center bg-black/80">
       <div className="bg-white dark:bg-gray-900 p-6 rounded-xl w-full max-w-2xl shadow-lg relative border border-gray-200 dark:border-white/[0.1] max-h-[90vh] overflow-y-auto">
-        <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">Chỉnh sửa người dùng</h2>
+        <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">Thêm voucher</h2>
         <form onSubmit={handleUser}>
           <div className="mb-4">
             <Label htmlFor="code">Code</Label>

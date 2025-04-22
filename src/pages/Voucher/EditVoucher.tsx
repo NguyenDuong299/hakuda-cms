@@ -5,93 +5,117 @@ import { useEffect, useState } from "react";
 import Label from "../../components/form/Label";
 import { toast } from "react-toastify";
 import { getProvinces, getDistrictsByProvinceCode, getWardsByDistrictCode } from "sub-vn";
-import { Users } from "../../types";
+import { Vouchers } from "../../types";
+import DatePicker from "../../components/form/date-picker";
+import { Hook } from "flatpickr/dist/types/options";
 
 interface Props {
-  user: Users;
+  voucher: Vouchers;
   setClose: () => void;
   refresh: () => void;
 }
 
-export const EditUser = ({ user, setClose, refresh }: Props) => {
+export const EditVoucher = ({ voucher, setClose, refresh }: Props) => {
   const API_URL = import.meta.env.VITE_API_URL;
-  const [selectedProvince, setSelectedProvince] = useState("");
-  const [selectedDistrict, setSelectedDistrict] = useState("");
-  const [selectedWard, setSelectedWard] = useState("");
-  const districts = selectedProvince ? getDistrictsByProvinceCode(selectedProvince) : [];
-  const wards = selectedDistrict ? getWardsByDistrictCode(selectedDistrict) : [];
-  const provinces = getProvinces();
   const [form, setForm] = useState({
     id: "",
-    firstName: "",
-    lastName: "",
-    email: "",
-    phoneNumber: "",
-    addressDesc: "",
+    code: "",
+    discountType: "",
+    discountValue: 0,
+    quantity: 0,
+    startDate: "",
+    endDate: "",
   });
 
   useEffect(() => {
-    if (user) {
+    if (voucher) {
       setForm({
-        id: user.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        phoneNumber: user.phoneNumber,
-        addressDesc: user.addressDesc || "",
+        id: voucher.id,
+        code: voucher.code,
+        discountType: voucher.discountType,
+        discountValue: voucher.discountValue,
+        quantity: voucher.quantity,
+        startDate: toYMD(new Date(voucher.startDate)),
+        endDate: toYMD(new Date(voucher.endDate)),
       });
-      setSelectedProvince(user.addressProvinceCode || "");
-      setSelectedDistrict(user.addressDistrictCode || "");
-      setSelectedWard(user.addressWardCode || "");
     }
-  }, [user]);
+  }, [voucher]);
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const toYMD = (date: Date) => {
+    const year = date.getFullYear();
+    const month = `${date.getMonth() + 1}`.padStart(2, "0");
+    const day = `${date.getDate()}`.padStart(2, "0");
+    const hours = `${date.getHours()}`.padStart(2, "0");
+    const minutes = `${date.getMinutes()}`.padStart(2, "0");
+    const seconds = `${date.getSeconds()}`.padStart(2, "0");
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  };
+
+  const onChangeStartDate: Hook = (dates) => {
+    const selectedDate = dates[0];
+    if (selectedDate) {
+      setForm((prev) => ({ ...prev, startDate: toYMD(selectedDate) }));
+    }
+  };
+
+  const onChangeEndDate: Hook = (dates) => {
+    const selectedDate = dates[0];
+    if (selectedDate) {
+      setForm((prev) => ({ ...prev, endDate: toYMD(selectedDate) }));
+    }
+  };
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleUser = async (e: React.FormEvent) => {
-    const updatedForm = {
-      ...form,
-      addressProvinceCode: selectedProvince,
-      addressDistrictCode: selectedDistrict,
-      addressWardCode: selectedWard,
-    };
     e.preventDefault();
     try {
-      const res = await axios.put(`${API_URL}/api/users/${form.id}`, updatedForm);
+      const res = await axios.put(`${API_URL}/api/vouchers/${form.id}`, form);
       toast.success(res.data.message);
       refresh();
       setClose();
     } catch (error) {
       console.error("Error fetching data:", error);
+      toast.error(error.response.data.message);
     }
   };
   return (
     <div className="fixed inset-0 z-60 flex items-center justify-center bg-black/80">
       <div className="bg-white dark:bg-gray-900 p-6 rounded-xl w-full max-w-2xl shadow-lg relative border border-gray-200 dark:border-white/[0.1] max-h-[90vh] overflow-y-auto">
-        <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">Chỉnh sửa người dùng</h2>
+        <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">Chỉnh sửa Voucher</h2>
         <form onSubmit={handleUser}>
           <div className="mb-4">
-            <Label htmlFor="firstName">Tên</Label>
-            <Input id="firstName" type="text" placeholder="Tên" name="firstName" value={form.firstName} onChange={onChange} required />
+            <Label htmlFor="code">Code</Label>
+            <Input id="code" type="text" placeholder="Code" name="code" value={form.code} onChange={onChange} required />
           </div>
           <div className="mb-4">
-            <Label htmlFor="lastName">Họ</Label>
-            <Input id="lastName" type="text" placeholder="Họ" name="lastName" value={form.lastName} onChange={onChange} />
+            <Label htmlFor="discountType">Loại mã</Label>
+            <select id="discountType" name="discountType" value={form.discountType} onChange={onChange} required className="w-full p-2 border rounded text-[14px]">
+              <option value="" disabled>
+                -- Chọn loại giảm giá --
+              </option>
+              <option value="percentage">Percentage Code</option>
+              <option value="amount">Amount Code</option>
+            </select>
           </div>
           <div className="mb-4">
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" type="text" placeholder="Email" name="email" value={form.email} onChange={onChange} />
+            <Label htmlFor="discountValue">Giá giảm</Label>
+            <Input id="discountValue" type="number" placeholder="Giá giảm" name="discountValue" value={form.discountValue} onChange={onChange} />
           </div>
           <div className="mb-4">
-            <Label htmlFor="phoneNumber">Số điện thoại</Label>
-            <Input id="phoneNumber" type="tel" placeholder="Số điện thoại" name="phoneNumber" value={form.phoneNumber} onChange={onChange} />
+            <Label htmlFor="quantity">Số lượng</Label>
+            <Input id="quantity" type="number" placeholder="Số lượng" name="quantity" value={form.quantity} onChange={onChange} />
           </div>
           <div className="mb-4">
-            <Label htmlFor="addressDetail">Địa chỉ</Label>
-            <Input id="addressDetail" type="text" placeholder="Địa chỉ" name="address" value={form.addressDesc} onChange={onChange} />
+            <Label htmlFor="startDate">Ngày bắt đầu</Label>
+            <DatePicker id="startDate" defaultDate={form.startDate ? new Date(form.startDate) : undefined} placeholder="Chọn ngày bắt đầu" onChange={onChangeStartDate} />
+          </div>
+          <div className="mb-4">
+            <Label htmlFor="endDate">Ngày kết thúc</Label>
+            <DatePicker id="endDate" defaultDate={form.endDate ? new Date(form.endDate) : undefined} placeholder="Chọn ngày kết thúc" onChange={onChangeEndDate} />
           </div>
           <div className="flex justify-end gap-2 mt-4">
             <Button type="button" variant="outline" onClick={setClose}>

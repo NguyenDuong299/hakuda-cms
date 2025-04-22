@@ -9,14 +9,14 @@ import Input from "../../components/form/input/InputField";
 import Blank from "../Blank";
 import { toast } from "react-toastify";
 import { Confirm } from "../../components/ui/confirm/Confirm";
-import { Vouchers } from "../../types";
-import { AddVoucher } from "./AddVoucher";
-import { EditVoucher } from "./EditVoucher";
-export default function VoucherManagement() {
+import { ProductLines } from "../../types";
+import { EditProductLine } from "./EditProductLine";
+import { AddProductLine } from "./AddProductLine";
+export default function ProductLineManagement() {
   const API_URL = import.meta.env.VITE_API_URL;
-  const [voucher, setVoucher] = useState<Vouchers[]>([]);
+  const [productLine, setProductLine] = useState<ProductLines[]>([]);
   const [modal, setModal] = useState<"add" | "edit" | null>(null);
-  const [selected, setSelected] = useState<Vouchers | null>(null);
+  const [selected, setSelected] = useState<ProductLines | null>(null);
   const [showConfirm, setShowConfirm] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
@@ -24,23 +24,23 @@ export default function VoucherManagement() {
   const [total, setTotal] = useState(0);
   const totalPages = Math.ceil(total / 10);
 
-  const fetchVoucher = async () => {
+  const fetchProductLine = async () => {
     try {
-      const res = await axios.get(`${API_URL}/api/vouchers`, {
+      const res = await axios.get(`${API_URL}/api/product-lines`, {
         params: {
           page,
           search: debouncedSearch,
         },
       });
-      setVoucher(res.data.vouchers);
-      setTotal(res.data.totalVoucher);
+      setProductLine(res.data.productLines);
+      setTotal(res.data.totalProductLine);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
   useEffect(() => {
-    fetchVoucher();
+    fetchProductLine();
   }, [page, debouncedSearch]);
 
   useEffect(() => {
@@ -53,17 +53,17 @@ export default function VoucherManagement() {
 
   const handleDelete = async (id: string) => {
     try {
-      const res = await axios.delete(`${API_URL}/api/vouchers/${id}`);
-      fetchVoucher();
+      const res = await axios.delete(`${API_URL}/api/product-lines/${id}`);
+      fetchProductLine();
       toast.success(res.data.message);
     } catch (error) {
       console.error("Error deleting post:", error);
     }
   };
-  const tableCell = ["STT", "Loại mã", "Giá giảm", "Số lượng", "Tình trạng", "Bắt đầu", "Kết thúc", "Ngày tạo", "Ngày cập nhật", "Thao tác"];
+  const tableCell = ["STT", "Tên dòng sản phẩm", "Ngày tạo", "Ngày cập nhật", "Thao tác"];
   return (
     <>
-      <PageBreadcrumb pageTitle="Quản lý voucher" />
+      <PageBreadcrumb pageTitle="Quản lý dòng sản phẩm" />
 
       <div className="space-y-6">
         <div className="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
@@ -74,7 +74,7 @@ export default function VoucherManagement() {
             </Button>
           </div>
         </div>
-        {voucher.length > 0 ? (
+        {productLine.length > 0 ? (
           <>
             <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
               <div className="max-w-full overflow-x-auto">
@@ -89,22 +89,17 @@ export default function VoucherManagement() {
                     </TableRow>
                   </TableHeader>
                   <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
-                    {voucher.map((item, index) => (
+                    {productLine.map((item, index) => (
                       <TableRow key={index}>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{index + 1}</TableCell>
-                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center capitalize">{item.discountType} Code</TableCell>
-                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">
-                          {Math.floor(item.discountValue)}
-                          {item.discountType === "percentage" ? "%" : "VNĐ"}
+                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center capitalize">{item.name}</TableCell>
+                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 flex justify-center">
+                          {item.image ? (
+                            <img src={`${API_URL}/${item.image}`} alt="image" className="w-20 h-20 object-cover" />
+                          ) : (
+                            <img src="/images/uploads/error-img.jpg" alt="image" className="w-20 h-20 object-cover" />
+                          )}
                         </TableCell>
-                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{item.quantity}</TableCell>
-                        <TableCell className="px-4 py-3 text-center text-theme-sm">
-                          <span className={new Date() > new Date(item.endDate) ? "text-red-500 font-semibold" : "text-green-500 font-semibold"}>
-                            {new Date() > new Date(item.endDate) ? "Quá hạn" : "Còn hạn"}
-                          </span>
-                        </TableCell>
-                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{format(new Date(item.startDate), "dd/MM/yyyy")}</TableCell>
-                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{format(new Date(item.endDate), "dd/MM/yyyy")}</TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{format(new Date(item.createdAt), "HH:mm dd/MM/yyyy")}</TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{format(new Date(item.updatedAt), "HH:mm dd/MM/yyyy")}</TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">
@@ -150,13 +145,13 @@ export default function VoucherManagement() {
             )}
           </>
         ) : (
-          <Blank tittle="Không có voucher" description="Không tìm thấy voucher trên từ hệ thống!" />
+          <Blank tittle="Không có dòng sản phẩm" description="Không tìm thấy dòng sản phẩm trên từ hệ thống!" />
         )}
       </div>
       {showConfirm && (
         <Confirm
-          title="Bạn chắc chắn muốn xóa Voucher này?"
-          message="Voucher sẽ không thể phục hồi sau khi xoá."
+          title="Bạn chắc chắn muốn xóa dòng sản phẩm này?"
+          message="Dòng sản phẩm sẽ không thể phục hồi sau khi xoá."
           onConfirm={() => {
             if (selected) {
               handleDelete(selected.id);
@@ -166,8 +161,8 @@ export default function VoucherManagement() {
           onCancel={() => setShowConfirm(false)}
         />
       )}
-      {modal === "add" && <AddVoucher setClose={() => setModal(null)} refresh={fetchVoucher} />}
-      {modal === "edit" && <EditVoucher voucher={selected} setClose={() => setModal(null)} refresh={fetchVoucher} />}
+      {modal === "add" && <AddProductLine setClose={() => setModal(null)} refresh={fetchProductLine} />}
+      {modal === "edit" && <EditProductLine productLine={selected} setClose={() => setModal(null)} refresh={fetchProductLine} />}
     </>
   );
 }

@@ -29,6 +29,16 @@ const navItems: NavItem[] = [
     subItems: [{ name: "Tài khoản", path: "/users", pro: false }],
   },
   {
+    name: "Quản lý thương hiệu",
+    icon: <TableIcon />,
+    subItems: [{ name: "Thương hiệu", path: "/brand", pro: false }],
+  },
+  {
+    name: "Quản lý dòng sản phẩm",
+    icon: <TableIcon />,
+    subItems: [{ name: "Dòng sản phẩm", path: "/product-line", pro: false }],
+  },
+  {
     name: "Quản lý bài viết",
     icon: <TableIcon />,
     subItems: [{ name: "Bài viết", path: "/posts", pro: false }],

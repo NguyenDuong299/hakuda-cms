@@ -38,8 +38,24 @@ export interface Vouchers {
   discountType: string;
   discountValue: number;
   quantity: number;
-  startDate: Date;
-  endDate: Date;
-  createdAt: Date;
-  updatedAt: Date;
+  startDate: string;
+  endDate: string;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface ProductLines {
+  id: string;
+  name: string;
+  description: string;
+  image: string;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface Brands {
+  id: string;
+  name: string;
+  description: string;
+  image: string;
+  createdAt: string;
+  updatedAt: string;
 }

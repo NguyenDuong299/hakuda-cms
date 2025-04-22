@@ -4,6 +4,7 @@ import "flatpickr/dist/flatpickr.css";
 import { CalenderIcon } from "../../icons";
 import Hook = flatpickr.Options.Hook;
 import DateOption = flatpickr.Options.DateOption;
+import React from "react";
 
 type PropsType = {
   id: string;
@@ -19,7 +20,7 @@ export default function DatePicker({ id, mode, onChange, defaultDate, placeholde
       mode: mode || "single",
       static: true,
       monthSelectorType: "static",
-      dateFormat: "Y-m-d",
+      dateFormat: "d-m-Y",
       defaultDate,
       onChange,
     });

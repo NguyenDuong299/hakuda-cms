@@ -13,6 +13,8 @@ import PostsManager from "./pages/Posts/Posts";
 import AccountManagement from "./pages/User/User";
 import Banner from "./pages/Page/Banner/Banner";
 import VoucherManagement from "./pages/Voucher/Voucher";
+import ProductLineManagement from "./pages/ProductLines/ProductLine";
+import BrandManagement from "./pages/Brands/Brand";
 
 export default function App() {
   return (
@@ -46,6 +48,24 @@ export default function App() {
               element={
                 <AuthGuard>
                   <VoucherManagement />
+                </AuthGuard>
+              }
+            />
+            <Route
+              index
+              path="/product-line"
+              element={
+                <AuthGuard>
+                  <ProductLineManagement />
+                </AuthGuard>
+              }
+            />
+            <Route
+              index
+              path="/brand"
+              element={
+                <AuthGuard>
+                  <BrandManagement />
                 </AuthGuard>
               }
             />
