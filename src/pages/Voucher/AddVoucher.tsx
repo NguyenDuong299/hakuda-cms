@@ -48,7 +48,7 @@ export const AddVoucher = ({ setClose, refresh }: Props) => {
     }
   };
 
-  const handleUser = async (e: FormEvent) => {
+  const handleVoucher = async (e: FormEvent) => {
     e.preventDefault();
     try {
       const res = await axios.post(`${API_URL}/api/vouchers`, form);
@@ -70,7 +70,7 @@ export const AddVoucher = ({ setClose, refresh }: Props) => {
     <div className="fixed inset-0 z-60 flex items-center justify-center bg-black/80">
       <div className="bg-white dark:bg-gray-900 p-6 rounded-xl w-full max-w-2xl shadow-lg relative border border-gray-200 dark:border-white/[0.1] max-h-[90vh] overflow-y-auto">
         <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">Thêm voucher</h2>
-        <form onSubmit={handleUser}>
+        <form onSubmit={handleVoucher}>
           <div className="mb-4">
             <Label htmlFor="code">Code</Label>
             <Input id="code" type="text" placeholder="Code" name="code" value={form.code} onChange={onChange} required />

@@ -9,14 +9,15 @@ import Input from "../../components/form/input/InputField";
 import Blank from "../Blank";
 import { toast } from "react-toastify";
 import { Confirm } from "../../components/ui/confirm/Confirm";
-import { Brands } from "../../types";
-import { AddBrand } from "./AddBrand";
-import { EditBrand } from "./EditBrand";
-export default function BrandManagement() {
+import { Products } from "../../types/index";
+import { AddProduct } from "./AddProduct";
+import { EditProduct } from "./EditProduct";
+
+export default function ProductManagement() {
   const API_URL = import.meta.env.VITE_API_URL;
-  const [brand, setBrand] = useState<Brands[]>([]);
+  const [product, setProduct] = useState<Products[]>([]);
   const [modal, setModal] = useState<"add" | "edit" | null>(null);
-  const [selected, setSelected] = useState<Brands | null>(null);
+  const [selected, setSelected] = useState<Products | null>(null);
   const [showConfirm, setShowConfirm] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
@@ -24,23 +25,24 @@ export default function BrandManagement() {
   const [total, setTotal] = useState(0);
   const totalPages = Math.ceil(total / 10);
 
-  const fetchBrand = async () => {
+  const fetchProduct = async () => {
     try {
-      const res = await axios.get(`${API_URL}/api/brands`, {
+      const res = await axios.get(`${API_URL}/api/products`, {
         params: {
           page,
           search: debouncedSearch,
         },
       });
-      setBrand(res.data.brands);
-      setTotal(res.data.totalBrand);
+      setProduct(res.data.products);
+      console.log(res.data.products);
+      setTotal(res.data.totalProduct);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
   useEffect(() => {
-    fetchBrand();
+    fetchProduct();
   }, [page, debouncedSearch]);
 
   useEffect(() => {
@@ -53,17 +55,17 @@ export default function BrandManagement() {
 
   const handleDelete = async (id: string) => {
     try {
-      const res = await axios.delete(`${API_URL}/api/brands/${id}`);
-      fetchBrand();
+      const res = await axios.delete(`${API_URL}/api/products/${id}`);
+      fetchProduct();
       toast.success(res.data.message);
     } catch (error) {
       console.error("Error deleting post:", error);
     }
   };
-  const tableCell = ["STT", "Tên thương hiệu", "Logo", "Ngày tạo", "Ngày cập nhật", "Thao tác"];
+  const tableCell = ["STT", "Code", "Hình ảnh", "Tên sản phẩm", "Giá", "Số lượng", "Ngày tạo", "Ngày cập nhật", "Thao tác"];
   return (
     <>
-      <PageBreadcrumb pageTitle="Quản lý thương hiệu" />
+      <PageBreadcrumb pageTitle="Quản lý sản phẩm" />
 
       <div className="space-y-6">
         <div className="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
@@ -74,7 +76,7 @@ export default function BrandManagement() {
             </Button>
           </div>
         </div>
-        {brand.length > 0 ? (
+        {product.length > 0 ? (
           <>
             <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
               <div className="max-w-full overflow-x-auto">
@@ -89,17 +91,23 @@ export default function BrandManagement() {
                     </TableRow>
                   </TableHeader>
                   <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
-                    {brand.map((item, index) => (
+                    {product.map((item, index) => (
                       <TableRow key={index}>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{index + 1}</TableCell>
-                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center capitalize">{item.name}</TableCell>
+                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center capitalize">{item.code}</TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 flex justify-center">
-                          {item.image ? (
-                            <img src={`${API_URL}/${item.image}`} alt="image" className="w-20 h-20 object-cover" />
+                          {item.images.length > 0 ? (
+                            item.images
+                              .filter((img) => img.isThumbnail && img.image_url)
+                              .slice(0, 1)
+                              .map((img, index) => <img key={index} src={`${API_URL}/${img.image_url}`} alt="thumbnail" className="w-20 h-20 object-cover" />)
                           ) : (
-                            <img src="/images/uploads/error-img.jpg" alt="image" className="w-20 h-20 object-cover" />
+                            <img src="/images/uploads/error-img.jpg" alt="thumbnail" className="w-20 h-20 object-cover" />
                           )}
                         </TableCell>
+                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{item.name}</TableCell>
+                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{Number(item.price).toLocaleString("vi-VN")}VNĐ</TableCell>
+                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{item.stock_quantity}</TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{format(new Date(item.createdAt), "HH:mm dd/MM/yyyy")}</TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{format(new Date(item.updatedAt), "HH:mm dd/MM/yyyy")}</TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">
@@ -145,13 +153,13 @@ export default function BrandManagement() {
             )}
           </>
         ) : (
-          <Blank tittle="Không có thương hiệu" description="Không tìm thấy thương hiệu trên từ hệ thống!" />
+          <Blank tittle="Không có sản phẩm" description="Không tìm thấy sản phẩm trên từ hệ thống!" />
         )}
       </div>
       {showConfirm && (
         <Confirm
-          title="Bạn chắc chắn muốn xóa thương hiệu này?"
-          message="Thương hiệu sẽ không thể phục hồi sau khi xoá."
+          title="Bạn chắc chắn muốn xóa sản phẩm này?"
+          message="Sản phẩm sẽ không thể phục hồi sau khi xoá."
           onConfirm={() => {
             if (selected) {
               handleDelete(selected.id);
@@ -161,8 +169,8 @@ export default function BrandManagement() {
           onCancel={() => setShowConfirm(false)}
         />
       )}
-      {modal === "add" && <AddBrand setClose={() => setModal(null)} refresh={fetchBrand} />}
-      {modal === "edit" && <EditBrand brand={selected} setClose={() => setModal(null)} refresh={fetchBrand} />}
+      {modal === "add" && <AddProduct setClose={() => setModal(null)} refresh={fetchProduct} />}
+      {modal === "edit" && <EditProduct product={selected} setClose={() => setModal(null)} refresh={fetchProduct} />}
     </>
   );
 }

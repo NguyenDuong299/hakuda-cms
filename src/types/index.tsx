@@ -44,7 +44,7 @@ export interface Vouchers {
   updatedAt: string;
 }
 export interface ProductLines {
-  id: string;
+  id: number;
   name: string;
   description: string;
   image: string;
@@ -52,10 +52,35 @@ export interface ProductLines {
   updatedAt: string;
 }
 export interface Brands {
-  id: string;
+  id: number;
   name: string;
   description: string;
   image: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Products {
+  id: number;
+  code: string;
+  name: string;
+  description: string;
+  detail: string;
+  price: number;
+  stock_quantity: number;
+  isDiscount: boolean;
+  hot: boolean;
+  brand_id: Brands[];
+  product_line_id: ProductLines[];
+  images: ProductImages[];
+  createdAt: string;
+  updatedAt: string;
+}
+export interface ProductImages {
+  id: number;
+  product_id: string;
+  image_url: string;
+  isThumbnail: boolean;
   createdAt: string;
   updatedAt: string;
 }

@@ -60,7 +60,7 @@ export default function ProductLineManagement() {
       console.error("Error deleting post:", error);
     }
   };
-  const tableCell = ["STT", "Tên dòng sản phẩm", "Ngày tạo", "Ngày cập nhật", "Thao tác"];
+  const tableCell = ["STT", "Tên dòng sản phẩm", "Logo", "Ngày tạo", "Ngày cập nhật", "Thao tác"];
   return (
     <>
       <PageBreadcrumb pageTitle="Quản lý dòng sản phẩm" />

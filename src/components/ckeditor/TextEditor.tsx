@@ -51,7 +51,7 @@ export default function TextEditor({ onChange, value }: Props) {
   return (
     <CKEditor
       editor={Editor}
-      config={editorConfiguration}
+      config={editorConfiguration || {}}
       data={value}
       onChange={(_, editor) => {
         const data = editor.getData();
