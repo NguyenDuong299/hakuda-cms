@@ -51,7 +51,7 @@ export default function ProductLineManagement() {
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: number) => {
     try {
       const res = await axios.delete(`${API_URL}/api/product-lines/${id}`);
       fetchProductLine();
@@ -162,7 +162,7 @@ export default function ProductLineManagement() {
         />
       )}
       {modal === "add" && <AddProductLine setClose={() => setModal(null)} refresh={fetchProductLine} />}
-      {modal === "edit" && <EditProductLine productLine={selected} setClose={() => setModal(null)} refresh={fetchProductLine} />}
+      {modal === "edit" && selected && <EditProductLine productLine={selected} setClose={() => setModal(null)} refresh={fetchProductLine} />}
     </>
   );
 }

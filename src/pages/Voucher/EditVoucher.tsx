@@ -4,7 +4,6 @@ import Button from "../../components/ui/button/Button";
 import { useEffect, useState } from "react";
 import Label from "../../components/form/Label";
 import { toast } from "react-toastify";
-import { getProvinces, getDistrictsByProvinceCode, getWardsByDistrictCode } from "sub-vn";
 import { Vouchers } from "../../types";
 import DatePicker from "../../components/form/date-picker";
 import { Hook } from "flatpickr/dist/types/options";

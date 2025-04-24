@@ -16,7 +16,7 @@ export const EditProductLine = ({ productLine, setClose, refresh }: Props) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const API_URL = import.meta.env.VITE_API_URL;
   const [form, setForm] = useState({
-    id: "",
+    id: 0,
     name: "",
     description: "",
     image: "",

@@ -34,7 +34,7 @@ export default function ProductManagement() {
         },
       });
       setProduct(res.data.products);
-      console.log(res.data.products);
+      console.log(res.data.products[0]);
       setTotal(res.data.totalProduct);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -53,7 +53,7 @@ export default function ProductManagement() {
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: number) => {
     try {
       const res = await axios.delete(`${API_URL}/api/products/${id}`);
       fetchProduct();
@@ -170,7 +170,7 @@ export default function ProductManagement() {
         />
       )}
       {modal === "add" && <AddProduct setClose={() => setModal(null)} refresh={fetchProduct} />}
-      {modal === "edit" && <EditProduct product={selected} setClose={() => setModal(null)} refresh={fetchProduct} />}
+      {modal === "edit" && selected && <EditProduct product={selected} setClose={() => setModal(null)} refresh={fetchProduct} />}
     </>
   );
 }

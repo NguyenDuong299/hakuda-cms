@@ -51,7 +51,7 @@ export default function BrandManagement() {
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: number) => {
     try {
       const res = await axios.delete(`${API_URL}/api/brands/${id}`);
       fetchBrand();
@@ -100,8 +100,13 @@ export default function BrandManagement() {
                             <img src="/images/uploads/error-img.jpg" alt="image" className="w-20 h-20 object-cover" />
                           )}
                         </TableCell>
-                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{format(new Date(item.createdAt), "HH:mm dd/MM/yyyy")}</TableCell>
-                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{format(new Date(item.updatedAt), "HH:mm dd/MM/yyyy")}</TableCell>
+                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">
+                          {" "}
+                          {item.createdAt && !isNaN(new Date(item.createdAt).getTime()) ? format(new Date(item.createdAt), "HH:mm dd/MM/yyyy") : "Không xác định"}
+                        </TableCell>
+                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">
+                          {item.updatedAt && !isNaN(new Date(item.updatedAt).getTime()) ? format(new Date(item.updatedAt), "HH:mm dd/MM/yyyy") : "Không xác định"}
+                        </TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">
                           <div className="flex gap-2 justify-center">
                             <Button

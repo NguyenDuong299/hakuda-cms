@@ -63,6 +63,8 @@ export default function VoucherManagement() {
   const tableCell = ["STT", "Loại mã", "Giá giảm", "Số lượng", "Tình trạng", "Bắt đầu", "Kết thúc", "Ngày tạo", "Ngày cập nhật", "Thao tác"];
   return (
     <>
+      {modal === "add" && <AddVoucher setClose={() => setModal(null)} refresh={fetchVoucher} />}
+      {modal === "edit" && selected && <EditVoucher voucher={selected} setClose={() => setModal(null)} refresh={fetchVoucher} />}
       <PageBreadcrumb pageTitle="Quản lý voucher" />
 
       <div className="space-y-6">
@@ -166,8 +168,6 @@ export default function VoucherManagement() {
           onCancel={() => setShowConfirm(false)}
         />
       )}
-      {modal === "add" && <AddVoucher setClose={() => setModal(null)} refresh={fetchVoucher} />}
-      {modal === "edit" && <EditVoucher voucher={selected} setClose={() => setModal(null)} refresh={fetchVoucher} />}
     </>
   );
 }

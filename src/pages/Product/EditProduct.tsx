@@ -231,7 +231,7 @@ export const EditProduct = ({ product, setClose, refresh }: Props) => {
               {form.images.map((image, index) => (
                 <div key={index} className="relative">
                   <img src={`${API_URL}/${image.image_url}`} alt={`Ảnh ${index + 1}`} className={`w-40 h-40 object-cover rounded border ${image.isThumbnail ? "ring-2 ring-blue-500" : ""}`} />
-                  {image.isThumbnail == 1 && <span className="absolute top-1 left-1 bg-blue-500 text-white text-xs px-1 rounded">Thumbnail</span>}
+                  {image.isThumbnail && <span className="absolute top-1 left-1 bg-blue-500 text-white text-xs px-1 rounded">Thumbnail</span>}
                   <div className="absolute top-0 right-0 p-1 bg-white rounded-full cursor-pointer" onClick={() => handleImageDelete(index)}>
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />

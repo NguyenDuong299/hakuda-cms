@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { Brands } from "../../types";
 
 interface Props {
-  brand: Brands;
+  brand: Brands | null;
   setClose: () => void;
   refresh: () => void;
 }
@@ -16,7 +16,7 @@ export const EditBrand = ({ brand, setClose, refresh }: Props) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const API_URL = import.meta.env.VITE_API_URL;
   const [form, setForm] = useState({
-    id: "",
+    id: 0,
     name: "",
     description: "",
     image: "",
