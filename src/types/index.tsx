@@ -84,3 +84,28 @@ export interface ProductImages {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface Orders {
+  id: number;
+  user_id: number;
+  voucher_id: number;
+  total_price: number;
+  recipient_name: string;
+  recipient_phone: string;
+  recipient_address: string;
+  note: string;
+  status: string;
+  order_items: OrderItems[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface OrderItems {
+  id: number;
+  code: string;
+  brand: string;
+  price: number;
+  quantity: number;
+  product_line: string;
+  product_name: string;
+}

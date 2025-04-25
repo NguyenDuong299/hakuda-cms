@@ -9,15 +9,15 @@ import Input from "../../components/form/input/InputField";
 import Blank from "../Blank";
 import { toast } from "react-toastify";
 import { Confirm } from "../../components/ui/confirm/Confirm";
-import { Products } from "../../types/index";
-import { AddProduct } from "./AddProduct";
-import { EditProduct } from "./EditProduct";
+import { Orders } from "../../types/index";
+import { OrderDetail } from "./OrderDetail";
+import { EyeIcon } from "../../icons/index";
 
-export default function ProductManagement() {
+export default function OrderManagent() {
   const API_URL = import.meta.env.VITE_API_URL;
-  const [product, setProduct] = useState<Products[]>([]);
+  const [order, setOrder] = useState<Orders[]>([]);
   const [modal, setModal] = useState<"add" | "edit" | null>(null);
-  const [selected, setSelected] = useState<Products | null>(null);
+  const [selected, setSelected] = useState<Orders | null>(null);
   const [showConfirm, setShowConfirm] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
@@ -25,23 +25,23 @@ export default function ProductManagement() {
   const [total, setTotal] = useState(0);
   const totalPages = Math.ceil(total / 10);
 
-  const fetchProduct = async () => {
+  const fetchOrder = async () => {
     try {
-      const res = await axios.get(`${API_URL}/api/products`, {
+      const res = await axios.get(`${API_URL}/api/orders`, {
         params: {
           page,
           search: debouncedSearch,
         },
       });
-      setProduct(res.data.products);
-      setTotal(res.data.totalProduct);
+      setOrder(res.data.orders);
+      setTotal(res.data.totalOrder);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
   useEffect(() => {
-    fetchProduct();
+    fetchOrder();
   }, [page, debouncedSearch]);
 
   useEffect(() => {
@@ -54,28 +54,39 @@ export default function ProductManagement() {
 
   const handleDelete = async (id: number) => {
     try {
-      const res = await axios.delete(`${API_URL}/api/products/${id}`);
-      fetchProduct();
+      const res = await axios.delete(`${API_URL}/api/orders/${id}`);
+      fetchOrder();
       toast.success(res.data.message);
     } catch (error) {
       console.error("Error deleting post:", error);
     }
   };
-  const tableCell = ["STT", "Code", "Hình ảnh", "Tên sản phẩm", "Giá", "Số lượng", "Ngày tạo", "Ngày cập nhật", "Thao tác"];
+  const formatStatusLabel = (status: string): string => {
+    switch (status) {
+      case "pending":
+        return "Chờ xác nhận";
+      case "confirmed":
+        return "Đã xác nhận";
+      case "shipped":
+        return "Đang giao";
+      case "delivered":
+        return "Giao hàng thành công";
+      default:
+        return status;
+    }
+  };
+  const tableCell = ["STT", "ID khách hàng", "Tên người nhận", "Số điện thoại người nhận", "Tổng tiền", "Trạng thái", "Ngày tạo", "Ngày cập nhật", "Thao tác"];
   return (
     <>
-      <PageBreadcrumb pageTitle="Quản lý sản phẩm" />
+      <PageBreadcrumb pageTitle="Quản lý đơn hàng" />
 
       <div className="space-y-6">
         <div className="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
           <div className="px-6 py-5 flex justify-between">
             <Input type="text" id="input" placeholder="Search" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
-            <Button size="sm" onClick={() => setModal("add")}>
-              Thêm
-            </Button>
           </div>
         </div>
-        {product.length > 0 ? (
+        {order.length > 0 ? (
           <>
             <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
               <div className="max-w-full overflow-x-auto">
@@ -90,23 +101,14 @@ export default function ProductManagement() {
                     </TableRow>
                   </TableHeader>
                   <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
-                    {product.map((item, index) => (
+                    {order.map((item, index) => (
                       <TableRow key={index}>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{index + 1}</TableCell>
-                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center capitalize">{item.code}</TableCell>
-                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 flex justify-center">
-                          {item.images && item.images.length > 0 ? (
-                            item.images
-                              .filter((img) => img && img.isThumbnail && img.image_url)
-                              .slice(0, 1)
-                              .map((img, index) => <img key={index} src={`${API_URL}/${img.image_url}`} alt="thumbnail" className="w-20 h-20 object-cover" />)
-                          ) : (
-                            <img src="/images/uploads/error-img.jpg" alt="thumbnail" className="w-20 h-20 object-cover" />
-                          )}
-                        </TableCell>
-                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{item.name}</TableCell>
-                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{Number(item.price).toLocaleString("vi-VN")}VNĐ</TableCell>
-                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{item.stock_quantity}</TableCell>
+                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center capitalize">{item.user_id}</TableCell>
+                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center capitalize">{item.recipient_name}</TableCell>
+                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center capitalize">{item.recipient_phone}</TableCell>
+                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center capitalize">{Number(item.total_price).toLocaleString("vi-VN")}VNĐ</TableCell>
+                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{formatStatusLabel(item.status)}</TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{format(new Date(item.createdAt), "HH:mm dd/MM/yyyy")}</TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{format(new Date(item.updatedAt), "HH:mm dd/MM/yyyy")}</TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">
@@ -117,9 +119,9 @@ export default function ProductManagement() {
                                 setSelected(item);
                               }}
                               size="sm"
-                              className="!bg-[#12B274]"
+                              className="!bg-[#1959F6]"
                             >
-                              <Edit />
+                              <EyeIcon />
                             </Button>
                             <Button
                               size="sm"
@@ -152,13 +154,13 @@ export default function ProductManagement() {
             )}
           </>
         ) : (
-          <Blank tittle="Không có sản phẩm" description="Không tìm thấy sản phẩm trên từ hệ thống!" />
+          <Blank tittle="Không có đơn hàng" description="Không tìm thấy đơn hàng từ hệ thống!" />
         )}
       </div>
       {showConfirm && (
         <Confirm
-          title="Bạn chắc chắn muốn xóa sản phẩm này?"
-          message="Sản phẩm sẽ không thể phục hồi sau khi xoá."
+          title="Bạn chắc chắn muốn xóa đơn hàng này?"
+          message="Đơn hàng sẽ không thể phục hồi sau khi xoá."
           onConfirm={() => {
             if (selected) {
               handleDelete(selected.id);
@@ -168,8 +170,8 @@ export default function ProductManagement() {
           onCancel={() => setShowConfirm(false)}
         />
       )}
-      {modal === "add" && <AddProduct setClose={() => setModal(null)} refresh={fetchProduct} />}
-      {modal === "edit" && selected && <EditProduct product={selected} setClose={() => setModal(null)} refresh={fetchProduct} />}
+      {/* {modal === "add" && <AddProduct setClose={() => setModal(null)} refresh={fetchProduct} />} */}
+      {modal === "edit" && selected && <OrderDetail order={selected} setClose={() => setModal(null)} refresh={fetchOrder} />}
     </>
   );
 }

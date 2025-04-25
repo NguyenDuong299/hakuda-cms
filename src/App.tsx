@@ -16,6 +16,7 @@ import VoucherManagement from "./pages/Voucher/Voucher";
 import ProductLineManagement from "./pages/ProductLines/ProductLine";
 import BrandManagement from "./pages/Brands/Brand";
 import ProductManagement from "./pages/Product/Product";
+import OrderManagent from "./pages/Order/Order";
 
 export default function App() {
   return (
@@ -76,6 +77,15 @@ export default function App() {
               element={
                 <AuthGuard>
                   <ProductManagement />
+                </AuthGuard>
+              }
+            />
+            <Route
+              index
+              path="/order"
+              element={
+                <AuthGuard>
+                  <OrderManagent />
                 </AuthGuard>
               }
             />
