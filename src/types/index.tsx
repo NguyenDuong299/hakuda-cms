@@ -109,3 +109,23 @@ export interface OrderItems {
   product_line: string;
   product_name: string;
 }
+
+export interface ExportReceipts {
+  id: number;
+  order_id: number;
+  export_date: string;
+  total_amount: number;
+  user_id: number;
+  status: string;
+  export_receipt_items: ExportReceiptItems[];
+  createdAt: string;
+  updatedAt: string;
+}
+export interface ExportReceiptItems {
+  id: number;
+  quantity: number;
+  product_id: number;
+  export_price: number;
+  createdAt: string;
+  updatedAt: string;
+}

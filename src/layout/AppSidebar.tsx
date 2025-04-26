@@ -39,6 +39,14 @@ const navItems: NavItem[] = [
     subItems: [{ name: "Đơn hàng", path: "/order", pro: false }],
   },
   {
+    name: "Quản lý kho hàng",
+    icon: <TableIcon />,
+    subItems: [
+      { name: "Xuất kho", path: "/export-receipt", pro: false },
+      { name: "Nhập kho", path: "/import-receipt", pro: false },
+    ],
+  },
+  {
     name: "Quản lý thương hiệu",
     icon: <TableIcon />,
     subItems: [{ name: "Thương hiệu", path: "/brand", pro: false }],

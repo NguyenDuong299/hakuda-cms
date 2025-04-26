@@ -17,6 +17,7 @@ import ProductLineManagement from "./pages/ProductLines/ProductLine";
 import BrandManagement from "./pages/Brands/Brand";
 import ProductManagement from "./pages/Product/Product";
 import OrderManagent from "./pages/Order/Order";
+import ExportReceiptManagement from "./pages/Receipt/ExportReceipt/ExportReceipt";
 
 export default function App() {
   return (
@@ -68,6 +69,15 @@ export default function App() {
               element={
                 <AuthGuard>
                   <BrandManagement />
+                </AuthGuard>
+              }
+            />
+            <Route
+              index
+              path="/export-receipt"
+              element={
+                <AuthGuard>
+                  <ExportReceiptManagement />
                 </AuthGuard>
               }
             />
