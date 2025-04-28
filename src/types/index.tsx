@@ -117,7 +117,7 @@ export interface ExportReceipts {
   total_amount: number;
   user_id: number;
   status: string;
-  export_receipt_items: ExportReceiptItems[];
+  export_receipt_details: ExportReceiptItems[];
   createdAt: string;
   updatedAt: string;
 }

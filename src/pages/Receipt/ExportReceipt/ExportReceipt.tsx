@@ -3,14 +3,16 @@ import { Table, TableBody, TableCell, TableHeader, TableRow } from "../../../com
 import axios from "axios";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
-import { Edit, TrashBinIcon } from "../../../icons";
+import { TrashBinIcon } from "../../../icons";
 import Button from "../../../components/ui/button/Button";
-import Input from "../../../components/form/input/InputField";
 import Blank from "../../Blank";
 import { toast } from "react-toastify";
 import { Confirm } from "../../../components/ui/confirm/Confirm";
 import { ExportReceipts } from "../../../types/index";
 import { EyeIcon } from "../../../icons/index";
+import { ExportReceiptsDetail } from "./ExportReceiptDetail";
+import Input from "../../../components/form/input/InputField";
+
 export default function ExportReceiptManagement() {
   const API_URL = import.meta.env.VITE_API_URL;
   const [exportReceipt, setExportReceipt] = useState<ExportReceipts[]>([]);
@@ -64,7 +66,7 @@ export default function ExportReceiptManagement() {
   return (
     <>
       {/* {modal === "add" && <AddVoucher setClose={() => setModal(null)} refresh={fetchExportReceipt} />} */}
-      {/* {modal === "edit" && selected && <EditVoucher voucher={selected} setClose={() => setModal(null)} refresh={fetchExportReceipt} />} */}
+      {modal === "edit" && selected && <ExportReceiptsDetail exportReceipt={selected} setClose={() => setModal(null)} refresh={fetchExportReceipt} />}
       <PageBreadcrumb pageTitle="Quản lý xuất kho" />
 
       <div className="space-y-6">
