@@ -124,15 +124,9 @@ export const EditProduct = ({ product, setClose, refresh }: Props) => {
       toast.success(res.data.message);
       refresh();
       setClose();
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const errorMessage = error?.response?.data?.message || "An error occurred. Please try again.";
-        toast.error(errorMessage);
-        console.error("Error fetching data:", error);
-      } else {
-        toast.error("An unknown error occurred.");
-        console.error("Unexpected error:", error);
-      }
+    } catch (error: any) {
+      toast.error(error?.response?.data?.error || "Có lỗi xảy ra");
+      console.log(error);
     }
   };
 
