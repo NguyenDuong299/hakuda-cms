@@ -11,6 +11,7 @@ import { Posts } from "../../types/index";
 import { format } from "date-fns";
 import { toast } from "react-toastify";
 import { Confirm } from "../../components/ui/confirm/Confirm";
+import Blank from "../Blank";
 
 export default function PostsManager() {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -78,73 +79,83 @@ export default function PostsManager() {
             </Button>
           </div>
         </div>
-        <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
-          <div className="max-w-full overflow-x-auto">
-            <Table>
-              <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
-                <TableRow>
-                  {tableCell.map((item, index) => (
-                    <TableCell key={index} isHeader className={`px-4 py-3 font-medium text-gray-500 text-theme-xs dark:text-gray-400 text-center ${index === tableCell.length - 1 ? "w-[100px]" : ""}`}>
-                      {item}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHeader>
-              <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
-                {posts.map((item, index) => (
-                  <TableRow key={index}>
-                    <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{index + 1}</TableCell>
-                    <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 flex justify-center">
-                      {item.thumbnail ? (
-                        <img src={`${API_URL}/${item.thumbnail}`} alt="thumbnail" className="w-20 h-20 object-cover" />
-                      ) : (
-                        <img src="/images/uploads/error-img.jpg" alt="thumbnail" className="w-20 h-20 object-cover" />
-                      )}
-                    </TableCell>
-                    <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{item.title}</TableCell>
-                    <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{item.author}</TableCell>
-                    <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{format(new Date(item.created_at), "HH:mm dd/MM/yyyy")}</TableCell>
-                    <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{format(new Date(item.updated_at), "HH:mm dd/MM/yyyy")}</TableCell>
-                    <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">
-                      <div className="flex gap-2 justify-center">
-                        <Button
-                          size="sm"
-                          onClick={() => {
-                            setSelected(item);
-                            setModal("edit");
-                          }}
-                          className="!bg-[#12B274]"
+        {posts.length > 0 ? (
+          <>
+            <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
+              <div className="max-w-full overflow-x-auto">
+                <Table>
+                  <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
+                    <TableRow>
+                      {tableCell.map((item, index) => (
+                        <TableCell
+                          key={index}
+                          isHeader
+                          className={`px-4 py-3 font-medium text-gray-500 text-theme-xs dark:text-gray-400 text-center ${index === tableCell.length - 1 ? "w-[100px]" : ""}`}
                         >
-                          <Edit />
-                        </Button>
-                        <Button
-                          size="sm"
-                          className="!bg-[#FF0000]"
-                          onClick={() => {
-                            setSelected(item);
-                            setShowConfirm(true);
-                          }}
-                        >
-                          <TrashBinIcon />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        </div>
-        {totalPages > 1 && (
-          <div className="flex justify-center rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03] px-6 py-5">
-            <div className="flex items-center gap-0.5">
-              {Array.from({ length: totalPages }, (_, index) => (
-                <button key={index} onClick={() => setPage(index + 1)} className={`${page === index + 1 ? "bg-[#F1F3FF] text-[#465FFF]" : "bg-white text-black"} rounded-lg w-10 h-10 font-medium`}>
-                  {index + 1}
-                </button>
-              ))}
+                          {item}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
+                    {posts.map((item, index) => (
+                      <TableRow key={index}>
+                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{index + 1}</TableCell>
+                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 flex justify-center">
+                          {item.thumbnail ? (
+                            <img src={`${API_URL}/${item.thumbnail}`} alt="thumbnail" className="w-20 h-20 object-cover" />
+                          ) : (
+                            <img src="/images/uploads/error-img.jpg" alt="thumbnail" className="w-20 h-20 object-cover" />
+                          )}
+                        </TableCell>
+                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{item.title}</TableCell>
+                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{item.author}</TableCell>
+                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{format(new Date(item.created_at), "HH:mm dd/MM/yyyy")}</TableCell>
+                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{format(new Date(item.updated_at), "HH:mm dd/MM/yyyy")}</TableCell>
+                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">
+                          <div className="flex gap-2 justify-center">
+                            <Button
+                              size="sm"
+                              onClick={() => {
+                                setSelected(item);
+                                setModal("edit");
+                              }}
+                              className="!bg-[#12B274]"
+                            >
+                              <Edit />
+                            </Button>
+                            <Button
+                              size="sm"
+                              className="!bg-[#FF0000]"
+                              onClick={() => {
+                                setSelected(item);
+                                setShowConfirm(true);
+                              }}
+                            >
+                              <TrashBinIcon />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
             </div>
-          </div>
+            {totalPages > 1 && (
+              <div className="flex justify-center rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03] px-6 py-5">
+                <div className="flex items-center gap-0.5">
+                  {Array.from({ length: totalPages }, (_, index) => (
+                    <button key={index} onClick={() => setPage(index + 1)} className={`${page === index + 1 ? "bg-[#F1F3FF] text-[#465FFF]" : "bg-white text-black"} rounded-lg w-10 h-10 font-medium`}>
+                      {index + 1}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </>
+        ) : (
+          <Blank tittle="Không có bài viết" description="Không tìm thấy bài viết từ hệ thống!" />
         )}
       </div>
       {showConfirm && (

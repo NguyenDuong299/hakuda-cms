@@ -24,7 +24,7 @@ export interface Posts {
 }
 
 export interface Banners {
-  id: string;
+  id: number;
   name: string;
   description: string;
   image: string;
@@ -70,8 +70,8 @@ export interface Products {
   stock_quantity: number;
   isDiscount: boolean;
   hot: boolean;
-  brand_id: Brands[];
-  product_line_id: ProductLines[];
+  brand_id: Brands[] | null;
+  product_line_id: ProductLines[] | null;
   images: ProductImages[];
   createdAt: string;
   updatedAt: string;

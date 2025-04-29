@@ -25,8 +25,8 @@ export const AddProduct = ({ setClose, refresh }: Props) => {
     stock_quantity: 0,
     isDiscount: false,
     hot: false,
-    brand_id: "",
-    product_line_id: "",
+    brand_id: null,
+    product_line_id: null,
     images: [] as { image_url: string; isThumbnail: boolean }[],
   });
 
