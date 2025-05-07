@@ -129,3 +129,29 @@ export interface ExportReceiptItems {
   createdAt: string;
   updatedAt: string;
 }
+export interface Suppliers {
+  id: number;
+  name: string;
+  email: string;
+  phoneNumber: string;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface ImportReceipts {
+  id: number;
+  supplier_id: number;
+  import_date: string;
+  total_amount: number;
+  note: string;
+  import_receipt_details: ImportReceiptDetails[];
+  createdAt: string;
+  updatedAt: string;
+}
+export interface ImportReceiptDetails {
+  id: number;
+  quantity: number;
+  import_price: number;
+  product_id: number;
+  createdAt: string;
+  updatedAt: string;
+}

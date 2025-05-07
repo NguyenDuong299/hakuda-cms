@@ -18,6 +18,8 @@ import BrandManagement from "./pages/Brands/Brand";
 import ProductManagement from "./pages/Product/Product";
 import OrderManagent from "./pages/Order/Order";
 import ExportReceiptManagement from "./pages/Receipt/ExportReceipt/ExportReceipt";
+import SupperlierManagement from "./pages/Supplier/Supplier";
+import ImportReceiptManagement from "./pages/Receipt/ImportReceipt/ImportReceipt";
 
 export default function App() {
   return (
@@ -96,6 +98,24 @@ export default function App() {
               element={
                 <AuthGuard>
                   <OrderManagent />
+                </AuthGuard>
+              }
+            />
+             <Route
+              index
+              path="/supplier"
+              element={
+                <AuthGuard>
+                  <SupperlierManagement />
+                </AuthGuard>
+              }
+            />
+             <Route
+              index
+              path="/import-receipt"
+              element={
+                <AuthGuard>
+                  < ImportReceiptManagement/>
                 </AuthGuard>
               }
             />

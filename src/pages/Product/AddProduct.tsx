@@ -97,7 +97,7 @@ export const AddProduct = ({ setClose, refresh }: Props) => {
   const handleProduct = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${API_URL}/api/products`, form);
+      const res = await axios.post(`${API_URL}/api/products`, { ...form, stock_quantity: 0 });
       toast.success(res.data.message);
       refresh();
       setClose();
@@ -145,18 +145,14 @@ export const AddProduct = ({ setClose, refresh }: Props) => {
       <div className="bg-white dark:bg-gray-900 p-6 rounded-xl w-full max-w-6xl shadow-lg relative border border-gray-200 dark:border-white/[0.1] max-h-[90vh] overflow-y-auto">
         <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">Thêm sản phẩm</h2>
         <form onSubmit={handleProduct}>
-          <div className="mb-4">
-            <Label htmlFor="code">Tên sản phẩm</Label>
-            <Input id="name" type="text" placeholder="Tên sản phẩm" name="name" value={form.name} onChange={onChange} required />
-          </div>
           <div className="flex gap-5 mb-4">
+            <div className="w-1/2 max-w-1/2">
+              <Label htmlFor="code">Tên sản phẩm</Label>
+              <Input id="name" type="text" placeholder="Tên sản phẩm" name="name" value={form.name} onChange={onChange} required />
+            </div>
             <div className="w-1/2 max-w-1/2">
               <Label htmlFor="price">Giá sản phẩm</Label>
               <Input id="price" type="number" placeholder="Giá sản phẩm" name="price" value={form.price} onChange={onChange} required />
-            </div>
-            <div className="w-1/2 max-w-1/2">
-              <Label htmlFor="stock_quanlity">Số lượng</Label>
-              <Input id="stock_quantity" type="number" placeholder="Số lượng" name="stock_quantity" value={form.stock_quantity} onChange={onChange} required />
             </div>
           </div>
           <div className="flex gap-5 mb-4">

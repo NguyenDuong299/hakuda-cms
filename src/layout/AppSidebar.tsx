@@ -67,6 +67,11 @@ const navItems: NavItem[] = [
     subItems: [{ name: "Voucher", path: "/voucher", pro: false }],
   },
   {
+    name: "Quản lý nhà cung cấp",
+    icon: <TableIcon />,
+    subItems: [{ name: "Nhà cung cấp", path: "/supplier", pro: false }],
+  },
+  {
     name: "Quản lý trang",
     icon: <PageIcon />,
     subItems: [{ name: "Quản lý Banner", path: "/banner", pro: false }],

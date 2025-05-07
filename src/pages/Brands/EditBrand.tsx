@@ -13,7 +13,6 @@ interface Props {
 }
 
 export const EditBrand = ({ brand, setClose, refresh }: Props) => {
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const API_URL = import.meta.env.VITE_API_URL;
   const [form, setForm] = useState({
     id: 0,
