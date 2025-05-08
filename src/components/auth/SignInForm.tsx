@@ -32,7 +32,7 @@ export default function SignInForm() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const res = await axios.post(`${API_URL}/api/auth/login`, formData, {
+      const res = await axios.post(`${API_URL}/api/auth/admin-login`, formData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -47,9 +47,9 @@ export default function SignInForm() {
       localStorage.setItem("token", token);
       toast.success("Đăng nhập thành công!");
       navigate("/");
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error fetching data:", error);
-      toast.error(error?.response?.data?.message || "Đăng nhập thất bại, có lỗi xảy ra!");
+      toast.error("Đăng nhập thất bại, có lỗi xảy ra!");
     } finally {
       setIsLoading(false);
     }
