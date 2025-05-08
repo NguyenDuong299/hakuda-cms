@@ -54,7 +54,7 @@ export const EditSupplier = ({ supplier, setClose, refresh }: Props) => {
         <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">Chỉnh sửa nhà cung cấp</h2>
         <form onSubmit={handleSupplier}>
           <div className="mb-4">
-            <Label htmlFor="name">Tên nhà cung cấp</Label>
+            <Label htmlFor="name">Tên nhà cung cấp <span className="text-red-500">*</span></Label>
             <Input id="name" type="text" placeholder="Tên nhà cung cấp" name="name" value={form.name} onChange={onChange} required />
           </div>
           <div className="mb-4">

@@ -13,6 +13,7 @@ interface Props {
 }
 
 export const EditBrand = ({ brand, setClose, refresh }: Props) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const API_URL = import.meta.env.VITE_API_URL;
   const [form, setForm] = useState({
     id: 0,
@@ -87,7 +88,7 @@ export const EditBrand = ({ brand, setClose, refresh }: Props) => {
         <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">Chỉnh sửa thương hiệu</h2>
         <form onSubmit={handleBrand}>
           <div className="mb-4">
-            <Label htmlFor="name">Tên thương hiệu</Label>
+            <Label htmlFor="name">Tên thương hiệu <span className="text-red-500">*</span></Label>
             <Input id="name" type="text" placeholder="Tên thương hiệu" name="name" value={form.name} onChange={onChange} required />
           </div>
           <div className="mb-4">
@@ -95,7 +96,7 @@ export const EditBrand = ({ brand, setClose, refresh }: Props) => {
             <Input id="description" type="text" placeholder="Mô tả thương hiệu" name="description" value={form.description} onChange={onChange} />
           </div>
           <div className="mb-4">
-            <Label htmlFor="thumbnail">Ảnh thương hiệu</Label>
+            <Label htmlFor="thumbnail">Ảnh thương hiệu <span className="text-red-500">*</span></Label>
             <Button type="button" onClick={triggerFileSelect}>
               Chọn ảnh
             </Button>

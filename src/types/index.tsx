@@ -140,6 +140,7 @@ export interface Suppliers {
 export interface ImportReceipts {
   id: number;
   supplier_id: number;
+  supplier_name: string;
   import_date: string;
   total_amount: number;
   note: string;

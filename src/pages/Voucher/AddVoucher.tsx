@@ -72,11 +72,11 @@ export const AddVoucher = ({ setClose, refresh }: Props) => {
         <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">Thêm voucher</h2>
         <form onSubmit={handleVoucher}>
           <div className="mb-4">
-            <Label htmlFor="code">Code</Label>
+            <Label htmlFor="code">Code <span className="text-red-500">*</span></Label>
             <Input id="code" type="text" placeholder="Code" name="code" value={form.code} onChange={onChange} required />
           </div>
           <div className="mb-4">
-            <Label htmlFor="discountType">Loại mã</Label>
+            <Label htmlFor="discountType">Loại mã <span className="text-red-500">*</span></Label>
             <select id="discountType" name="discountType" value={form.discountType} onChange={onChange} required className="w-full p-2 border rounded text-[14px]">
               <option value="" disabled>
                 -- Chọn loại giảm giá --
@@ -86,19 +86,19 @@ export const AddVoucher = ({ setClose, refresh }: Props) => {
             </select>
           </div>
           <div className="mb-4">
-            <Label htmlFor="discountValue">Giá giảm</Label>
+            <Label htmlFor="discountValue">Giá giảm <span className="text-red-500">*</span></Label>
             <Input id="discountValue" type="number" placeholder="Giá giảm" name="discountValue" value={form.discountValue} onChange={onChange} />
           </div>
           <div className="mb-4">
-            <Label htmlFor="quantity">Số lượng</Label>
+            <Label htmlFor="quantity">Số lượng <span className="text-red-500">*</span></Label>
             <Input id="quantity" type="number" placeholder="Số lượng" name="quantity" value={form.quantity} onChange={onChange} />
           </div>
           <div className="mb-4">
-            <Label htmlFor="startDate">Ngày bắt đầu</Label>
+            <Label htmlFor="startDate">Ngày bắt đầu <span className="text-red-500">*</span></Label>
             <DatePicker id="startDate" placeholder="Chọn ngày bắt đầu" onChange={onChangeStartDate} />
           </div>
           <div className="mb-4">
-            <Label htmlFor="endDate">Ngày kết thúc</Label>
+            <Label htmlFor="endDate">Ngày kết thúc <span className="text-red-500">*</span></Label>
             <DatePicker id="endDate" placeholder="Chọn ngày kết thúc" onChange={onChangeEndDate} />
           </div>
           <div className="flex justify-end gap-2 mt-4">

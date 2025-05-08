@@ -84,18 +84,18 @@ export const AddPost = ({ setClose, refresh }: Props) => {
         <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">Chỉnh sửa bài viết</h2>
         <form onSubmit={handlePost}>
           <div className="mb-4">
-            <Label htmlFor="title">Tiêu đề</Label>
+            <Label htmlFor="title">Tiêu đề <span className="text-red-500">*</span></Label>
             <Input id="title" type="text" placeholder="Tiêu đề" name="title" value={form.title} onChange={onChange} required />
           </div>
           <div className="mb-4">
-            <Label htmlFor="author">Tác giả</Label>
+            <Label htmlFor="author">Tác giả <span className="text-red-500">*</span></Label>
             <Input id="author" type="text" placeholder="Tác giả" name="author" value={form.author} onChange={onChange} />
           </div>
           <div className="mb-4">
             <Switch label="Nổi bật bài viết" checked={form.hot} onChange={handleHotChange} />
           </div>
           <div className="mb-4">
-            <Label htmlFor="thumbnail">Hình ảnh (Thumbnail)</Label>
+            <Label htmlFor="thumbnail">Hình ảnh (Thumbnail) <span className="text-red-500">*</span></Label>
             <Button type="button" onClick={triggerFileSelect}>
               Chọn ảnh
             </Button>
@@ -103,7 +103,7 @@ export const AddPost = ({ setClose, refresh }: Props) => {
             {form.thumbnail && <img src={`${API_URL}/${form.thumbnail}`} alt="Preview" className="max-w-full max-h-64 rounded-lg border mt-2" />}
           </div>
           <div className="mt-4">
-            <Label htmlFor="content">Nội dung</Label>
+            <Label htmlFor="content">Nội dung <span className="text-red-500">*</span></Label>
             <TextEditor value={form.content} onChange={handleEditorChange} />
           </div>
           <div className="flex justify-end gap-2 mt-4">

@@ -81,7 +81,7 @@ export const AddBanner = ({ setClose, refresh }: Props) => {
         <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">Thêm banner</h2>
         <form onSubmit={handleBanner}>
           <div className="mb-4">
-            <Label htmlFor="name">Tên banner</Label>
+            <Label htmlFor="name">Tên banner <span className="text-red-500">*</span></Label>
             <Input id="name" type="text" placeholder="Tên banner" name="name" value={form.name} onChange={onChange} required />
           </div>
           <div className="mb-4">
@@ -89,7 +89,7 @@ export const AddBanner = ({ setClose, refresh }: Props) => {
             <Input id="description" type="text" placeholder="Mô tả banner" name="description" value={form.description} onChange={onChange} />
           </div>
           <div className="mb-4">
-            <Label htmlFor="image">Ảnh banner</Label>
+            <Label htmlFor="image">Ảnh banner <span className="text-red-500">*</span></Label>
             <Button type="button" onClick={triggerFileSelect}>
               Chọn ảnh
             </Button>

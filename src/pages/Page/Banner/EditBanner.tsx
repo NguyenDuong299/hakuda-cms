@@ -86,11 +86,11 @@ export const EditBanner = ({ banner, setClose, refresh }: Props) => {
         <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">Chỉnh sửa bài viết</h2>
         <form onSubmit={handlePut}>
           <div className="mb-4">
-            <Label htmlFor="name">Tên Banner</Label>
+            <Label htmlFor="name">Tên Banner <span className="text-red-500">*</span></Label>
             <Input id="name" type="text" placeholder="Tên Banner" name="name" value={form.name} onChange={onChange} required />
           </div>
           <div className="mb-4">
-            <Label htmlFor="thumbnail">Hình ảnh</Label>
+            <Label htmlFor="thumbnail">Hình ảnh <span className="text-red-500">*</span></Label>
             <Button type="button" onClick={triggerFileSelect}>
               Chọn ảnh
             </Button>

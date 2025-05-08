@@ -18,11 +18,11 @@ const navItems: NavItem[] = [
     name: "Bảng điều khiển",
     subItems: [{ name: "Ecommerce", path: "/", pro: false }],
   },
-  {
-    name: "Forms",
-    icon: <ListIcon />,
-    subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
-  },
+  // {
+  //   name: "Forms",
+  //   icon: <ListIcon />,
+  //   subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
+  // },
   {
     name: "Quản lý người dùng",
     icon: <TableIcon />,
@@ -71,22 +71,14 @@ const navItems: NavItem[] = [
     icon: <TableIcon />,
     subItems: [{ name: "Nhà cung cấp", path: "/supplier", pro: false }],
   },
+];
+
+const othersItems: NavItem[] = [
   {
     name: "Quản lý trang",
     icon: <PageIcon />,
     subItems: [{ name: "Quản lý Banner", path: "/banner", pro: false }],
   },
-];
-
-const othersItems: NavItem[] = [
-  // {
-  //   icon: <PlugInIcon />,
-  //   name: "Authentication",
-  //   subItems: [
-  //     { name: "Sign In", path: "/signin", pro: false },
-  //     { name: "Sign Up", path: "/signup", pro: false },
-  //   ],
-  // },
 ];
 
 const AppSidebar: React.FC = () => {
