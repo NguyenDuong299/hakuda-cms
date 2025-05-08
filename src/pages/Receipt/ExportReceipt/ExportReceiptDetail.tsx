@@ -51,8 +51,8 @@ export const ExportReceiptsDetail = ({ exportReceipt, setClose, refresh }: Props
     switch (status) {
       case "pending":
         return "Chờ xác nhận";
-      case "confirmed":
-        return "Đã xác nhận";
+      case "completed":
+        return "Đã hoàn thành";
       case "cancelled":
         return "Đã huỷ";
       default:
@@ -102,21 +102,25 @@ export const ExportReceiptsDetail = ({ exportReceipt, setClose, refresh }: Props
           {form.export_date && (
             <div className="mb-4">
               <Label>Ngày xuất kho</Label>
-              <p> format(new Date(form.export_date), "HH:mm dd/MM/yyyy")d</p>
+              <p> {format(new Date(form.export_date), "HH:mm dd/MM/yyyy")}</p>
             </div>
           )}
           <div className="mb-4">
             <Label>Trạng thái</Label>
             <p>{form.status}</p>
           </div>
-          <div className="mb-4">
-            <Label>Ngày tạo phiếu xuất</Label>
-            <p>{form.createAt}</p>
-          </div>
-          <div className="mb-4">
-            <Label>Ngày cập nhật</Label>
-            <p>{form.updateAt}</p>
-          </div>
+          {form.createAt && (
+            <div className="mb-4">
+              <Label>Ngày tạo phiếu xuất</Label>
+              <p> {format(new Date(form.createAt), "HH:mm dd/MM/yyyy")}</p>
+            </div>
+          )}
+          {form.updateAt && (
+            <div className="mb-4">
+              <Label>Ngày cập nhật</Label>
+              <p> {format(new Date(form.updateAt), "HH:mm dd/MM/yyyy")}</p>
+            </div>
+          )}
 
           {form.export_receipt_details.length > 0 &&
             form.export_receipt_details.map((item, index) => (
@@ -146,7 +150,7 @@ export const ExportReceiptsDetail = ({ exportReceipt, setClose, refresh }: Props
             </Button>
             {getNextStatus(form.status).map((status) => (
               <Button key={status} type="button" onClick={() => handleSubmit(status)}>
-                Chuyển trạng thái: {getStatusLabel(status)}
+                {getStatusLabel(status)}
               </Button>
             ))}
           </div>

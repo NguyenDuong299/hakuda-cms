@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowDownIcon, ArrowUpIcon, BoxIconLine, GroupIcon } from "../../icons";
+import { ArrowDownIcon, BoxIconLine, GroupIcon } from "../../icons";
 import Badge from "../ui/badge/Badge";
 import axios from "axios";
 
@@ -7,6 +7,8 @@ export default function EcommerceMetrics() {
   const API_URL = import.meta.env.VITE_API_URL;
   const [totalUser, setTotalUser] = useState(0);
   const [totalOrder, setTotalOrder] = useState(0);
+  const [totalRevenue, setTotalRevenue] = useState(0);
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -24,9 +26,18 @@ export default function EcommerceMetrics() {
         console.error("Error fetching data:", error);
       }
     };
+    const fetchRevenue = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/api/export-receipts/get/revenue`);
+        setTotalRevenue(res.data.totalRevenue);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
     fetchUser();
     fetchOrder();
-  }, []);
+    fetchRevenue();
+  }, [API_URL]);
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6">
@@ -69,7 +80,7 @@ export default function EcommerceMetrics() {
         <div className="flex items-end justify-between mt-5">
           <div>
             <span className="text-sm text-gray-500 dark:text-gray-400">Doanh thu</span>
-            <h4 className="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">3,000,000</h4>
+            <h4 className="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">{Number(totalRevenue).toLocaleString("vi-VN")}</h4>
           </div>
 
           <Badge color="error">
