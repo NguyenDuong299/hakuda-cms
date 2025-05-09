@@ -12,6 +12,7 @@ import { ExportReceipts } from "../../../types/index";
 import { EyeIcon } from "../../../icons/index";
 import { ExportReceiptsDetail } from "./ExportReceiptDetail";
 import Input from "../../../components/form/input/InputField";
+import { AddExportReceipt } from "./AddExportReceipt";
 
 export default function ExportReceiptManagement() {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -35,7 +36,6 @@ export default function ExportReceiptManagement() {
       });
       setExportReceipt(res.data.exportReceipts);
       setTotal(res.data.totalExportReceipt);
-      console.log(res.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -65,7 +65,7 @@ export default function ExportReceiptManagement() {
   const tableCell = ["STT", "ID đơn hàng", "Tổng giá", "Xuất ngày", "Tình trạng", "Ngày tạo", "Ngày cập nhật", "Thao tác"];
   return (
     <>
-      {/* {modal === "add" && <AddVoucher setClose={() => setModal(null)} refresh={fetchExportReceipt} />} */}
+      {modal === "add" && <AddExportReceipt setClose={() => setModal(null)} refresh={fetchExportReceipt} />}
       {modal === "edit" && selected && <ExportReceiptsDetail exportReceipt={selected} setClose={() => setModal(null)} refresh={fetchExportReceipt} />}
       <PageBreadcrumb pageTitle="Quản lý xuất kho" />
 
