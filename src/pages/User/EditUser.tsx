@@ -145,8 +145,8 @@ export const EditUser = ({ user, setClose, refresh }: Props) => {
             </select>
           </div>
           <div className="mb-4">
-            <Label htmlFor="addressDetail">Địa chỉ</Label>
-            <Input id="addressDetail" type="text" placeholder="Địa chỉ" name="address" value={form.addressDesc} onChange={onChange} />
+            <Label htmlFor="addressDesc">Địa chỉ</Label>
+            <Input id="addressDesc" type="text" placeholder="Địa chỉ" name="addressDesc" value={form.addressDesc} onChange={onChange} />
           </div>
           <div className="flex justify-end gap-2 mt-4">
             <Button type="button" variant="outline" onClick={setClose}>
