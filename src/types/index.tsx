@@ -91,10 +91,12 @@ export interface Orders {
   voucher_id: number;
   total_price: number;
   recipient_name: string;
+  recipient_email: string;
   recipient_phone: string;
   recipient_address: string;
   note: string;
   status: string;
+  images: ProductImages[];
   order_items: OrderItems[];
   createdAt: string;
   updatedAt: string;
@@ -108,6 +110,7 @@ export interface OrderItems {
   quantity: number;
   product_line: string;
   product_name: string;
+  images: ProductImages[];
 }
 
 export interface ExportReceipts {

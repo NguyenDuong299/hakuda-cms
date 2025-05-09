@@ -18,6 +18,7 @@ export const OrderDetail = ({ order, setClose, refresh }: Props) => {
     voucher_id: 0,
     total_price: 0,
     recipient_name: "",
+    recipient_email: "",
     recipient_phone: "",
     recipient_address: "",
     note: "",
@@ -32,6 +33,7 @@ export const OrderDetail = ({ order, setClose, refresh }: Props) => {
         voucher_id: order.voucher_id || 0,
         total_price: order.total_price || 0,
         recipient_name: order.recipient_name || "",
+        recipient_email: order.recipient_email || "",
         recipient_phone: order.recipient_phone || "",
         recipient_address: order.recipient_address || "",
         note: order.note || "",
@@ -103,6 +105,10 @@ export const OrderDetail = ({ order, setClose, refresh }: Props) => {
           <div className="mb-4">
             <Label>Tên người nhận hàng</Label>
             <p>{form.recipient_name}</p>
+          </div>
+          <div className="mb-4">
+            <Label>Email người nhận hàng</Label>
+            <p>{form.recipient_email}</p>
           </div>
           <div className="mb-4">
             <Label>Số điện thoại người nhận</Label>

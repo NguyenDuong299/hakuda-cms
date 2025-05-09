@@ -9,6 +9,7 @@ import { ImportReceipts } from "../../../types/index";
 import { EyeIcon } from "../../../icons/index";
 import Input from "../../../components/form/input/InputField";
 import { AddImportReceipt } from "./AddImportReceipt";
+import { ImportReceiptDetail } from "./ImportReceiptDetail";
 
 export default function ImportReceiptManagement() {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -16,6 +17,7 @@ export default function ImportReceiptManagement() {
   const [modal, setModal] = useState<"add" | "edit" | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
+  const [selected, setSelected] = useState<ImportReceipts | null>(null);
   const [debouncedSearch, setDebouncedSearch] = useState(searchQuery);
   const [total, setTotal] = useState(0);
   const totalPages = Math.ceil(total / 10);
@@ -51,6 +53,7 @@ export default function ImportReceiptManagement() {
   return (
     <>
       {modal === "add" && <AddImportReceipt setClose={() => setModal(null)} refresh={fetchImportReceipt} />}
+      {modal === "edit" && selected && <ImportReceiptDetail importReceipt={selected} setClose={() => setModal(null)} />}
       <PageBreadcrumb pageTitle="Quản lý nhập kho" />
       <div className="space-y-6">
         <div className="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
@@ -90,6 +93,7 @@ export default function ImportReceiptManagement() {
                             <Button
                               onClick={() => {
                                 setModal("edit");
+                                setSelected(item);
                               }}
                               size="sm"
                               className="!bg-[#1959F6]"
