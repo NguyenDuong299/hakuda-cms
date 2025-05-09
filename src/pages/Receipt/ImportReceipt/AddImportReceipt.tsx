@@ -5,7 +5,7 @@ import { FormEvent, useEffect, useState } from "react";
 import Label from "../../../components/form/Label";
 import { toast } from "react-toastify";
 import { Plus, Trash2 } from "lucide-react";
-import DatePicker from "../../../components/form/date-picker";
+import { format } from "date-fns";
 
 interface Props {
   setClose: () => void;
@@ -19,7 +19,7 @@ export const AddImportReceipt = ({ setClose, refresh }: Props) => {
 
   const [form, setForm] = useState({
     supplier_id: "",
-    import_date: "",
+    import_date: new Date().toISOString().split("T")[0],
     total_amount: 0,
     note: "",
     import_receipt_details: [] as { quantity: number; import_price: number; product_id: number }[],
@@ -32,6 +32,14 @@ export const AddImportReceipt = ({ setClose, refresh }: Props) => {
       [name]: name === "total_amount" ? Number(value) : value,
     }));
   };
+
+  useEffect(() => {
+    const total = form.import_receipt_details.reduce((sum, item) => sum + item.quantity * item.import_price, 0);
+    setForm((prev) => ({
+      ...prev,
+      total_amount: total,
+    }));
+  }, [form.import_receipt_details]);
 
   const handleDetailChange = (index: number, field: keyof (typeof form.import_receipt_details)[0], value: string) => {
     const newDetails = [...form.import_receipt_details];
@@ -130,23 +138,12 @@ export const AddImportReceipt = ({ setClose, refresh }: Props) => {
 
           <div className="mb-4">
             <Label htmlFor="import_date">Ngày nhập</Label>
-            <DatePicker
-              id="import_date"
-              placeholder="Chọn ngày"
-              defaultDate={form.import_date}
-              onChange={([selectedDate]) => {
-                const isoDate = selectedDate instanceof Date ? selectedDate.toISOString().split("T")[0] : "";
-                setForm((prev) => ({
-                  ...prev,
-                  import_date: isoDate,
-                }));
-              }}
-            />
+            <Input type="text" placeholder="Ngày nhập" name="import_date" value={format(new Date(form.import_date), "dd/MM/yyyy")} className="cursor-not-allowed" />
           </div>
 
           <div className="mb-4">
             <Label htmlFor="total_amount">Tổng tiền</Label>
-            <Input id="total_amount" type="number" name="total_amount" value={form.total_amount} onChange={onChange} required min={0} />
+            <Input id="total_amount" type="number" name="total_amount" value={form.total_amount} required className="cursor-not-allowed" />
           </div>
 
           <div className="mb-4">
@@ -176,16 +173,16 @@ export const AddImportReceipt = ({ setClose, refresh }: Props) => {
             {form.import_receipt_details.map((item, index) => (
               <div key={index} className="flex flex-col gap-2 mt-3">
                 <div className="w-full">
-                  <Label>Mã sản phẩm</Label>
+                  <Label>Sản phẩm</Label>
                   <select
                     value={item.product_id}
                     onChange={(e) => handleDetailChange(index, "product_id", e.target.value)}
                     className="w-full h-11 rounded-md border px-2 dark:bg-gray-800 dark:text-white"
                   >
-                    <option value="">Chọn mã sản phẩm</option>
+                    <option value="">Chọn sản phẩm</option>
                     {products.map((p) => (
                       <option key={p.id} value={p.id}>
-                        {p.code}
+                        {p.name}
                       </option>
                     ))}
                   </select>

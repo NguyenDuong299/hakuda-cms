@@ -6,6 +6,7 @@ import Label from "../../../components/form/Label";
 import { toast } from "react-toastify";
 import { Plus, Trash2 } from "lucide-react";
 import { format } from "date-fns";
+import { Products } from "../../../types";
 
 interface Props {
   setClose: () => void;
@@ -14,7 +15,7 @@ interface Props {
 
 export const AddExportReceipt = ({ setClose, refresh }: Props) => {
   const API_URL = import.meta.env.VITE_API_URL;
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<Products[]>([]);
   const [form, setForm] = useState({
     export_date: new Date().toISOString().split("T")[0],
     total_amount: 0,
@@ -22,8 +23,6 @@ export const AddExportReceipt = ({ setClose, refresh }: Props) => {
     status: "pending",
     export_receipt_details: [] as { product_id: number; quantity: number; export_price: number }[],
   });
-
-
 
   const handleDetailChange = (index: number, field: keyof (typeof form.export_receipt_details)[0], value: string) => {
     const newDetails = [...form.export_receipt_details];
@@ -43,7 +42,7 @@ export const AddExportReceipt = ({ setClose, refresh }: Props) => {
       ...prev,
       total_amount: total,
     }));
-  }, [form.export_receipt_details, handleDetailChange]);
+  }, [form.export_receipt_details]);
 
   const addDetailRow = () => {
     setForm((prev) => ({
@@ -62,7 +61,6 @@ export const AddExportReceipt = ({ setClose, refresh }: Props) => {
 
   const handleImportReceipt = async (e: FormEvent) => {
     e.preventDefault();
-
     if (!form.export_date || !form.total_amount || form.export_receipt_details.length === 0) {
       toast.error("Vui lòng nhập đầy đủ thông tin và ít nhất một sản phẩm chi tiết.");
       return;
@@ -101,7 +99,7 @@ export const AddExportReceipt = ({ setClose, refresh }: Props) => {
 
           <div className="mb-4">
             <Label htmlFor="total_amount">Tổng tiền</Label>
-            <Input id="total_amount" type="number" name="total_amount" value={form.total_amount} required min={0} readOnly className="cursor-not-allowed"/>
+            <Input id="total_amount" type="number" name="total_amount" value={form.total_amount} required className="cursor-not-allowed" />
           </div>
 
           <div className="mb-4">
@@ -125,20 +123,20 @@ export const AddExportReceipt = ({ setClose, refresh }: Props) => {
                     className="w-full h-11 rounded-md border px-2 dark:bg-gray-800 dark:text-white"
                   >
                     <option value="">Chọn mã sản phẩm</option>
-                    {products.map((p) => (
-                      <option key={p.id} value={p.id}>
-                        {p.code}
+                    {products.map((item, index) => (
+                      <option key={index} value={item.id}>
+                        {item.name}
                       </option>
                     ))}
                   </select>
                 </div>
                 <div className="w-full">
                   <Label>Số lượng</Label>
-                  <Input type="number" placeholder="Số lượng" value={item.quantity} onChange={(e) => handleDetailChange(index, "quantity", e.target.value)} min={1} required />
+                  <Input type="number" placeholder="Số lượng" value={item.quantity} onChange={(e) => handleDetailChange(index, "quantity", e.target.value)} required />
                 </div>
                 <div className="w-full">
                   <Label>Giá xuất</Label>
-                  <Input type="number" placeholder="Giá xuất" value={item.export_price} onChange={(e) => handleDetailChange(index, "export_price", e.target.value)} min={0} required />
+                  <Input type="number" placeholder="Giá xuất" value={item.export_price} onChange={(e) => handleDetailChange(index, "export_price", e.target.value)} required />
                 </div>
                 <div className="col-span-2 text-right">
                   <Button type="button" variant="ghost" onClick={() => removeDetailRow(index)} className="text-red-500 hover:text-red-700">

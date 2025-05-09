@@ -63,8 +63,6 @@ export const ExportReceiptsDetail = ({ exportReceipt, setClose, refresh }: Props
     switch (current) {
       case "pending":
         return ["completed", "cancelled"];
-      case "completed":
-        return ["cancelled"];
       default:
         return [];
     }

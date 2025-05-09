@@ -14,7 +14,6 @@ export default function ImportReceiptManagement() {
   const API_URL = import.meta.env.VITE_API_URL;
   const [importReceipt, setImportReceipt] = useState<ImportReceipts[]>([]);
   const [modal, setModal] = useState<"add" | "edit" | null>(null);
-  const [selected, setSelected] = useState<ImportReceipts | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
   const [debouncedSearch, setDebouncedSearch] = useState(searchQuery);
@@ -91,7 +90,6 @@ export default function ImportReceiptManagement() {
                             <Button
                               onClick={() => {
                                 setModal("edit");
-                                setSelected(item);
                               }}
                               size="sm"
                               className="!bg-[#1959F6]"
