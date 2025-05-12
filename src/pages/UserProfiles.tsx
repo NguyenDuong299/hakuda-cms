@@ -17,7 +17,6 @@ export default function UserProfiles() {
         </h3>
         <div className="space-y-6">
           <UserInfoCard />
-          <UserAddressCard />
         </div>
       </div>
     </>

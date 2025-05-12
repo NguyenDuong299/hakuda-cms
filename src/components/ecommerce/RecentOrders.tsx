@@ -17,6 +17,7 @@ export default function RecentOrders() {
   useEffect(() => {
     fetchOrder();
   }, []);
+
   return (
     <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white px-4 pb-3 pt-4 dark:border-gray-800 dark:bg-white/[0.03] sm:px-6">
       <div className="flex flex-col gap-2 mb-4 sm:flex-row sm:items-center sm:justify-between">
@@ -73,8 +74,8 @@ export default function RecentOrders() {
                   <TableCell className="py-3 text-gray-500 text-theme-sm dark:text-gray-400">{product.quantity}</TableCell>
                   <TableCell className="py-3 text-gray-500 text-theme-sm dark:text-gray-400">{product.price.toLocaleString()} ₫</TableCell>
                   <TableCell className="py-3 text-gray-500 text-theme-sm dark:text-gray-400">
-                    <Badge size="sm" color={orderItem.status === "Delivered" ? "success" : orderItem.status === "Pending" ? "warning" : "error"}>
-                      {orderItem.status}
+                    <Badge size="sm" color={orderItem.status === "delivered" ? "success" : orderItem.status === "pending" ? "warning" : orderItem.status === "cancelled" ? "destructive" : "default"}>
+                      {orderItem.status.charAt(0).toUpperCase() + orderItem.status.slice(1)}
                     </Badge>
                   </TableCell>
                 </TableRow>

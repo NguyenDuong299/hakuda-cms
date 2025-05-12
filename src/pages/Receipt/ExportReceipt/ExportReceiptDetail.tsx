@@ -78,6 +78,7 @@ export const ExportReceiptsDetail = ({ exportReceipt, setClose, refresh }: Props
       console.error(error);
     }
   };
+
   return (
     <div className="fixed inset-0 z-60 flex items-center justify-center bg-black/80">
       <div className="bg-white dark:bg-gray-900 p-6 rounded-xl w-full max-w-6xl shadow-lg relative border border-gray-200 dark:border-white/[0.1] max-h-[90vh] overflow-y-auto">
@@ -131,7 +132,7 @@ export const ExportReceiptsDetail = ({ exportReceipt, setClose, refresh }: Props
                   <strong>Số lượng</strong> {item.quantity}
                 </p>
                 <p>
-                  <strong>Giá:</strong> {item.export_price}
+                  <strong>Giá:</strong> {Number(item.export_price).toLocaleString("vi-VN")}VNĐ
                 </p>
                 <p>
                   <strong>Ngày tạo:</strong> {format(new Date(item.createdAt), "HH:mm dd/MM/yyyy")}

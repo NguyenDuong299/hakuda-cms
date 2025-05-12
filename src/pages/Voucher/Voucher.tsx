@@ -96,7 +96,7 @@ export default function VoucherManagement() {
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{index + 1}</TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center capitalize">{item.discountType} Code</TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">
-                          {Math.floor(item.discountValue)}
+                          {Number(item.discountValue).toLocaleString("vi-VN")}
                           {item.discountType === "percentage" ? "%" : "VNĐ"}
                         </TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{item.quantity}</TableCell>

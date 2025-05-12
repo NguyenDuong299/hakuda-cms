@@ -98,10 +98,12 @@ export const OrderDetail = ({ order, setClose, refresh }: Props) => {
       <div className="bg-white dark:bg-gray-900 p-6 rounded-xl w-full max-w-6xl shadow-lg relative border border-gray-200 dark:border-white/[0.1] max-h-[90vh] overflow-y-auto">
         <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">Chi tiết đơn hàng</h2>
         <div>
-          <div className="mb-4">
-            <Label>ID khách hàng</Label>
-            <p>{form.user_id}</p>
-          </div>
+          {form.user_id > 0 && (
+            <div className="mb-4">
+              <Label>ID khách hàng</Label>
+              <p>{form.user_id}</p>
+            </div>
+          )}
           <div className="mb-4">
             <Label>Tên người nhận hàng</Label>
             <p>{form.recipient_name}</p>

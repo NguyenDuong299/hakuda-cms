@@ -91,7 +91,7 @@ export const ImportReceiptDetail = ({ importReceipt, setClose }: Props) => {
                   <strong>ID sản phẩm:</strong> {item.product_id}
                 </p>
                 <p>
-                  <strong>Số lượng</strong> {item.quantity}
+                  <strong>Số lượng:</strong> {item.quantity}
                 </p>
                 <p>
                   <strong>Giá:</strong> {Number(item.import_price).toLocaleString("vi-VN")}VNĐ
