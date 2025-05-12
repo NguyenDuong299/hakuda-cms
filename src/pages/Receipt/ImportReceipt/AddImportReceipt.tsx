@@ -6,6 +6,7 @@ import Label from "../../../components/form/Label";
 import { toast } from "react-toastify";
 import { Plus, Trash2 } from "lucide-react";
 import { format } from "date-fns";
+import CustomSelect from "../../../components/common/CustomSelect";
 
 interface Props {
   setClose: () => void;
@@ -98,7 +99,7 @@ export const AddImportReceipt = ({ setClose, refresh }: Props) => {
   useEffect(() => {
     const fetchSuppliers = async () => {
       try {
-        const res = await axios.get(`${API_URL}/api/products`);
+        const res = await axios.get(`${API_URL}/api/products/filter/all`);
         setProducts(res.data.products);
       } catch (error) {
         console.error("Error fetching suppliers", error);
@@ -174,18 +175,7 @@ export const AddImportReceipt = ({ setClose, refresh }: Props) => {
               <div key={index} className="flex flex-col gap-2 mt-3">
                 <div className="w-full">
                   <Label>Sản phẩm</Label>
-                  <select
-                    value={item.product_id}
-                    onChange={(e) => handleDetailChange(index, "product_id", e.target.value)}
-                    className="w-full h-11 rounded-md border px-2 dark:bg-gray-800 dark:text-white"
-                  >
-                    <option value="">Chọn sản phẩm</option>
-                    {products.map((p) => (
-                      <option key={p.id} value={p.id}>
-                        {p.name}
-                      </option>
-                    ))}
-                  </select>
+                  <CustomSelect options={products} value={item.product_id} onChange={(val) => handleDetailChange(index, "product_id", val)} placeholder="Chọn sản phẩm" />
                 </div>
                 <div className="w-full">
                   <Label>Số lượng</Label>

@@ -54,12 +54,7 @@ export const EditProduct = ({ product, setClose, refresh }: Props) => {
     const { name, value } = e.target;
     setForm((prev) => ({
       ...prev,
-      [name]:
-        name === "price" || name === "stock_quantity"
-          ? Number(value)
-          : value === "" && (name === "brand_id" || name === "product_line_id")
-          ? null
-          : value,
+      [name]: name === "price" || name === "stock_quantity" ? Number(value) : value === "" && (name === "brand_id" || name === "product_line_id") ? null : value,
     }));
   };
 
@@ -127,8 +122,7 @@ export const EditProduct = ({ product, setClose, refresh }: Props) => {
       toast.success(res.data.message);
       refresh();
       setClose();
-    } catch (error: any) {
-      toast.error(error?.response?.data?.error || "Có lỗi xảy ra");
+    } catch (error) {
       console.log(error);
     }
   };
@@ -174,11 +168,15 @@ export const EditProduct = ({ product, setClose, refresh }: Props) => {
         <form onSubmit={handleProduct}>
           <div className="flex gap-5 mb-4">
             <div className="w-1/2 max-w-1/2">
-              <Label htmlFor="code">Tên sản phẩm <span className="text-red-500">*</span></Label>
+              <Label htmlFor="code">
+                Tên sản phẩm <span className="text-red-500">*</span>
+              </Label>
               <Input id="name" type="text" placeholder="Tên sản phẩm" name="name" value={form.name} onChange={onChange} required />
             </div>
             <div className="w-1/2 max-w-1/2">
-              <Label htmlFor="price">Giá sản phẩm <span className="text-red-500">*</span></Label>
+              <Label htmlFor="price">
+                Giá sản phẩm <span className="text-red-500">*</span>
+              </Label>
               <Input id="price" type="number" placeholder="Giá sản phẩm" name="price" value={form.price} onChange={onChange} required />
             </div>
           </div>
@@ -215,7 +213,9 @@ export const EditProduct = ({ product, setClose, refresh }: Props) => {
             </div>
           </div>
           <div className="mb-4">
-            <Label htmlFor="thumbnail">Hình ảnh (Thumbnail) <span className="text-red-500">*</span></Label>
+            <Label htmlFor="thumbnail">
+              Hình ảnh (Thumbnail) <span className="text-red-500">*</span>
+            </Label>
             <Button type="button" onClick={triggerFileSelect}>
               Chọn ảnh
             </Button>

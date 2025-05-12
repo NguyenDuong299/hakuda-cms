@@ -95,17 +95,19 @@ export default function ProductManagement() {
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{index + 1}</TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center capitalize">{item.code}</TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 flex justify-center">
-                          {item.images && item.images.length > 0 ? (
-                            item.images
-                              .filter((img) => img && img.isThumbnail && img.image_url)
-                              .slice(0, 1)
-                              .map((img, index) => <img key={index} src={`${API_URL}/${img.image_url}`} alt="thumbnail" className="w-20 h-20 object-cover" />)
-                          ) : (
-                            <img src="/images/uploads/error-img.jpg" alt="thumbnail" className="w-20 h-20 object-cover" />
-                          )}
+                          <div className="w-20 h-20">
+                            {item.images && item.images.length > 0 ? (
+                              item.images
+                                .filter((img) => img && img.isThumbnail && img.image_url)
+                                .slice(0, 1)
+                                .map((img, index) => <img key={index} src={`${API_URL}/${img.image_url}`} alt="thumbnail" className="w-20 h-20 object-cover" />)
+                            ) : (
+                              <img src="/images/uploads/error-img.jpg" alt="thumbnail" className="w-20 h-20 object-cover" />
+                            )}
+                          </div>
                         </TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{item.name}</TableCell>
-                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{Number(item.price).toLocaleString("vi-VN")}VNĐ</TableCell>
+                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{Number(item.price).toLocaleString("vi-VN")}</TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{item.stock_quantity}</TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{format(new Date(item.createdAt), "HH:mm dd/MM/yyyy")}</TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{format(new Date(item.updatedAt), "HH:mm dd/MM/yyyy")}</TableCell>

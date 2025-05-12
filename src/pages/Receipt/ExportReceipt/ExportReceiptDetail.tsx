@@ -70,7 +70,7 @@ export const ExportReceiptsDetail = ({ exportReceipt, setClose, refresh }: Props
   const handleSubmit = async (nextStatus: string) => {
     try {
       await axios.put(`${API_URL}/api/export-receipts/${form.id}`, { status: nextStatus });
-      toast.success("Cập nhật trạng thái đơn hàng thành công!");
+      toast.success("Cập nhật trạng thái xuất kho thành công!");
       refresh();
       setClose();
     } catch (error) {
@@ -96,7 +96,7 @@ export const ExportReceiptsDetail = ({ exportReceipt, setClose, refresh }: Props
           )}
           <div className="mb-4">
             <Label>Tổng giá</Label>
-            <p>{form.total_amount}</p>
+            <p>{Number(form.total_amount).toLocaleString("vi-VN")}VNĐ</p>
           </div>
           {form.export_date && (
             <div className="mb-4">
@@ -106,7 +106,7 @@ export const ExportReceiptsDetail = ({ exportReceipt, setClose, refresh }: Props
           )}
           <div className="mb-4">
             <Label>Trạng thái</Label>
-            <p>{form.status}</p>
+            <p>{getStatusLabel(form.status)}</p>
           </div>
           {form.createAt && (
             <div className="mb-4">

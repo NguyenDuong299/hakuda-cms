@@ -101,9 +101,9 @@ export const AddProduct = ({ setClose, refresh }: Props) => {
       toast.success(res.data.message);
       refresh();
       setClose();
-    } catch (error: any) {
-      toast.error(error.response.data.message);
+    } catch (error) {
       console.log(error);
+      toast.error(error?.response.data.message);
     }
   };
 

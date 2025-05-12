@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowDownIcon, BoxIconLine, GroupIcon } from "../../icons";
-import Badge from "../ui/badge/Badge";
+import { BoxIconLine, GroupIcon } from "../../icons";
 import axios from "axios";
 
 export default function EcommerceMetrics() {

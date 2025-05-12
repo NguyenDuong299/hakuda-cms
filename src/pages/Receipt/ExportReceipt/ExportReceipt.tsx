@@ -62,7 +62,19 @@ export default function ExportReceiptManagement() {
       console.error("Error deleting post:", error);
     }
   };
-  const tableCell = ["STT", "ID đơn hàng", "Tổng giá", "Xuất ngày", "Tình trạng", "Ngày tạo", "Ngày cập nhật", "Thao tác"];
+  const statusDefined = (status: string) => {
+    switch (status) {
+      case "pending":
+        return "Chờ xác nhận";
+      case "completed":
+        return "Đã hoàn thành";
+      case "cancelled":
+        return "Đã huỷ";
+      default:
+        return status;
+    }
+  };
+  const tableCell = ["STT", "ID phiếu xuất", "Tổng giá", "Xuất ngày", "Tình trạng", "Ngày tạo", "Ngày cập nhật", "Thao tác"];
   return (
     <>
       {modal === "add" && <AddExportReceipt setClose={() => setModal(null)} refresh={fetchExportReceipt} />}
@@ -96,10 +108,10 @@ export default function ExportReceiptManagement() {
                     {exportReceipt.map((item, index) => (
                       <TableRow key={index}>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{index + 1}</TableCell>
-                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center capitalize">{item.order_id}</TableCell>
+                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center capitalize">{item.id}</TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center capitalize">{Number(item.total_amount).toLocaleString("vi-VN")}</TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center capitalize">{format(new Date(item.export_date), "HH:mm dd/MM/yyyy")}</TableCell>
-                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center capitalize">{item.status}</TableCell>
+                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center capitalize">{statusDefined(item.status)}</TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{format(new Date(item.createdAt), "HH:mm dd/MM/yyyy")}</TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">{format(new Date(item.updatedAt), "HH:mm dd/MM/yyyy")}</TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400 text-center">
